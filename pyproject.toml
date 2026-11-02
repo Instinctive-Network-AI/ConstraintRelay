@@ -28,16 +28,17 @@ fieldtest = ["pydantic>=2"]
 # The console script. `cf.naming.CLI` must equal this key, and
 # `v2/naming_gate.py` asserts it: a help text that prints a command the
 # install does not create is worse than no help text.
-constraintrelay = "cf.cli:main"
+constraintrelay = "constraintrelay.cli:main"
 
 [tool.setuptools]
-# Two packages, not one. `cf` is the implementation and keeps its interface;
-# `constraintflow` is the product surface a developer imports. Listing only
-# `cf` would ship a wheel whose documented first line — `import constraintflow`
-# — raises ImportError, which is the same shape as the defect that shipped a
-# wheel carrying none of its data: `v2/install_verify.py` now imports BOTH
-# from the installed wheel, because importing one says nothing about the other.
-packages = ["cf", "constraintflow"]
+# ONE package, as of 2026-11-02. It was two — `cf` for the implementation and
+# `constraintflow` for the product surface — and both were renamed into
+# `constraintrelay` because both COLLIDE ON INSTALL: `cf` with the unrelated
+# `cf-python`, `constraintflow` with UIUC's project of that name on PyPI. Two
+# distributions that write the same site-packages directory overwrite each
+# other, so the collision is not cosmetic. No compatibility alias is kept, by
+# decision: there are no external users to keep working.
+packages = ["constraintrelay"]
 
 [tool.setuptools.package-data]
 # The shipped profile data. This was `[]` and the data sat in a SIBLING
@@ -48,7 +49,7 @@ packages = ["cf", "constraintflow"]
 # 0 — a wrong answer rather than an error. The data now lives in `cf/data/`
 # and travels with the package; `v2/install_verify.py` runs both commands
 # from the installed wheel so this cannot regress silently.
-cf = ["data/*.json"]
+constraintrelay = ["data/*.json"]
 
 # Apache-2.0 requires the NOTICE file to travel with any distribution that
 # includes it, and `license-files` above puts both it and LICENSE into the

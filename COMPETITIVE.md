@@ -193,7 +193,7 @@ would have to build it.
 |---|---|---|
 | **Cerbos Hub** | signed bundles; **deployment state** — which node serves which version, last seen | We have a content id and no fleet view at all. "Which of my agents is running which library?" has no answer today |
 | **LaunchDarkly** | approval workflow and **instant rollback** on an instruction change | Our library is rebuilt and re-attested by hand. A wrong declaration cannot be pulled back in one action |
-| **Guardrails AI** | `pip install` → `Guard().use(…)` → done, 7 lines ([quickstart](https://www.guardrailsai.com/docs/getting_started/quickstart), read 2026-10-23) | Closed as of 1.0: `cf.attach(client, …)` + `active()` is three lines |
+| **Guardrails AI** | `pip install` → `Guard().use(…)` → done, 7 lines ([quickstart](https://www.guardrailsai.com/docs/getting_started/quickstart), read 2026-10-23) | Closed as of 1.0: `constraintrelay.attach(client, …)` + `active()` is three lines |
 | **Permit.io** *(unverified)* | low-intrusion integration via a gateway | Our instance-level patch is already low-intrusion; worth checking whether a gateway covers hosts we refuse |
 
 ## 4. What to refuse

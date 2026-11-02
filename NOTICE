@@ -21,20 +21,20 @@ named here.
 VERIFIED — licence text read from the checkout used
 
   HKUDS/Vibe-Trading — MIT License, Copyright (c) 2026 Vibe-Trading Contributors
-      cf/vibe_trading_paged.py
+      constraintrelay/vibe_trading_paged.py
           Ports the paged skill loader at commit 9a27a6e:
           agent/src/tools/load_skill_tool.py, agent/src/config/limits.py,
           agent/src/agent/skills.py.
-      cf/deliver.py
+      constraintrelay/deliver.py
           Uses that port, and the harness's TOOL_RESULT_LIMIT constant.
 
   openclaw/openclaw — MIT License (package.json, v2026.9.1)
-      cf/openclaw.py
+      constraintrelay/openclaw.py
           Python port of the workspace bootstrap loader's algorithm.
 
   NousResearch/hermes-agent — MIT License, Copyright (c) 2025 Nous Research
       Read from the checkout at ~/.hermes/hermes-agent, which is at commit
-      2517917de — the exact commit cf/profiles.py was derived from. Its LICENSE
+      2517917de — the exact commit constraintrelay/profiles.py was derived from. Its LICENSE
       is byte-identical (md5 1864e6648a4c302b984b2efd215c7918) to the upstream
       blob 75410e73319c72cd3e991a501c5455eb78f38375 at that commit.
       Until 2026-10-04 this entry sat in the unverified section saying no
@@ -43,7 +43,7 @@ VERIFIED — licence text read from the checkout used
       attribution marked unverified for want of a file that was already on disk
       is the cheapest kind of licence defect there is, and it survived because
       nothing checked the claim.
-      cf/profiles.py — byte-exact port of `_strip_yaml_frontmatter`, and the
+      constraintrelay/profiles.py — byte-exact port of `_strip_yaml_frontmatter`, and the
       hermes context-loader layer model.
 
 VERIFIED — licence text read from the upstream repository at the pinned commit
@@ -56,14 +56,14 @@ surface (see LIMITATIONS.md).
   Conway-Research/automaton — MIT License, Copyright (c) 2026 Conway
       LICENSE @ d8f8168 (2026-08-26),
       blob 10a0038c2eb08f9a91781be59fda8a8621bc8da8
-      cf/conway.py — port of the skill-instruction loader.
+      constraintrelay/conway.py — port of the skill-instruction loader.
 
   openai/codex — Apache License 2.0
       LICENSE @ bcd6d9a, blob 4606e72e042564097e8780d66c1d4dcb611869bd
       Same Apache-2.0 terms as this project's LICENSE; the two copies differ
       only in line wrapping and in the appendix, which upstream fills in with
       its own copyright line.
-      cf/codex.py, oracle/codex_agents_md_oracle.py — project-doc loader model.
+      constraintrelay/codex.py, oracle/codex_agents_md_oracle.py — project-doc loader model.
 
       Apache-2.0 is the one upstream licence here that imposes an ongoing
       obligation on this distribution. Its section 4 requires that derivative
@@ -78,7 +78,7 @@ surface (see LIMITATIONS.md).
 
       That NOTICE also attributes Ratatui (MIT, Copyright (c) 2016-2022
       Florian Dehau, Copyright (c) 2023-2025 The Ratatui Developers) for
-      derived terminal-UI code. ConstraintRelay ports none of it — cf/codex.py
+      derived terminal-UI code. ConstraintRelay ports none of it — constraintrelay/codex.py
       models only the project-doc loader — so under the 4(d) carve-out for
       notices that do not pertain to any part of the derivative work, that
       attribution is named here for traceability rather than claimed as a

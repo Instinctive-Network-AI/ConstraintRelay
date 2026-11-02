@@ -67,13 +67,13 @@ RUN TIME
 
 ### 2a. The canonical artifact (`fieldtest/phase15/canonical.py`)
 
-Pipeline: provider output → `cf.semantic.validate` → `cf.semantic.ground` →
+Pipeline: provider output → `constraintrelay.semantic.validate` → `constraintrelay.semantic.ground` →
 **canonicalization** → canonical candidate artifact.
 
 The one structural claim: *a quotation's identity as a pointer into a document
 is which source lines, inside which structural unit, it designates.* So the
 canonical span is **the line range the grounded span intersects, clipped to its
-enclosing `cf.structure` unit**. Only NFC + whitespace-run collapse are applied.
+enclosing `constraintrelay.structure` unit**. Only NFC + whitespace-run collapse are applied.
 Deliberately **not** normalised: letter case, punctuation, wording, field order
 within a value, synonymy.
 

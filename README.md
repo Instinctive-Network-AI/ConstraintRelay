@@ -46,9 +46,12 @@ pip install .                   # from a checkout of this repository
 > certification"*, version 0.1.1, MIT, uploaded 2025-09-12
 > ([pypi.org/project/constraintflow](https://pypi.org/project/constraintflow/),
 > read 2026-10-25) — so `pip install constraintflow` installs **that**, not
-> this. The module you `import` is still spelled `cf`; the names are settled
-> and the reasons the import name was left alone are in
-> [`DEVELOPER_PREVIEW.md`](DEVELOPER_PREVIEW.md).
+> this. **And it is why the module you `import` is `constraintrelay` too.**
+> It was `cf` until 2026-11-02, when both importable packages were renamed
+> into one: `cf` collides with the unrelated `cf-python`, `constraintflow`
+> with the project above, and two distributions that write the same
+> `site-packages` directory overwrite each other. There is no compatibility
+> alias — see [`DEVELOPER_PREVIEW.md`](DEVELOPER_PREVIEW.md).
 
 Every command below runs from your repository root and assumes this layout —
 `--source` is the **root**, and a skill id is its path **under** that root:
@@ -112,10 +115,10 @@ quickstart](CONTAINER_QUICKSTART.md).
 Now install the guard on your client:
 
 ```python
-import cf
+import constraintrelay
 
-guard = cf.attach(client, host="openai-python",
-                  library="lib.json", source=".")
+guard = constraintrelay.attach(client, host="openai-python",
+                               library="lib.json", source=".")
 
 with guard.active("skills/my-skill"):
     client.chat.completions.create(model=…, messages=[…], tools=[…])
@@ -169,7 +172,7 @@ a surprise.
 
 ### What has been measured, and what follows from it
 
-**Measured.** `cf.attach` wraps one method on one client object:
+**Measured.** `constraintrelay.attach` wraps one method on one client object:
 `client.chat.completions.create`. Sync and async clients, the capsule in the
 payload the method received, the receipt, the four ledger states, and the same
 against the real `openai` package in a clean venv. The patch is on **that

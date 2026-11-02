@@ -154,18 +154,18 @@ To widen the range, in order:
    added against a cause nobody has found** — a speculative fix here would be
    a guard written against the attack I thought of.
 
-## 5. RULED — the public function is `cf.attach`
+## 5. RULED — the public function is `constraintrelay.attach`
 
 **Owner ruling 2026-10-25.** Not `protect`, not `observe`, and not renamed
 again. Implemented, with **no alias**: an alias called `protect` would keep in
 the public API the word the ruling removes.
 
 The documentation states what attaching does, because the name alone does not:
-`cf.attach(client, host=…, library=…, source=…)` wires one client into **both
+`constraintrelay.attach(client, host=…, library=…, source=…)` wires one client into **both
 mechanisms**. On every call through the patched method the activated
 declarations are *injected* into the outgoing payload — a capsule in a
 non-elevating role, after the host's own messages — and the payload that
-actually left is handed to `cf.container_receipt.verify`, which issues the
+actually left is handed to `constraintrelay.container_receipt.verify`, which issues the
 **receipt**: which named declarations were in the request, at which version,
 with which confirmation state, and what the observation could not reach.
 

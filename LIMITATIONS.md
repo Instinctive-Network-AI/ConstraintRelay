@@ -106,7 +106,7 @@ Vibe-Trading's house style.
 
 ### 1.1 The semantic path is experimental, and it is NOT reproducible
 
-`cf.api.discover` accepts an optional model client that proposes candidates the
+`constraintrelay.api.discover` accepts an optional model client that proposes candidates the
 pattern layer cannot reach. It works: on the two probe skills it closes most of
 what regex could not (tables 0 → 56%, fences 21 → 67%, lists 40 → 92%), with
 grounding rejecting anything not present in the source. **But v0.1 makes no
@@ -325,7 +325,7 @@ The runner is written and reviewable at
 `fieldtest/phase6/run_real_sessions.py`, with endpoint and spend guards. It
 currently refuses to start: the DeepSeek credential in this environment is the
 one that was mis-routed on 2026-10-03, and its fingerprint is in
-`cf.provider_guard.REVOKED_FINGERPRINTS`, so the guard rejects it before any
+`constraintrelay.provider_guard.REVOKED_FINGERPRINTS`, so the guard rejects it before any
 request is formed. Once a replacement key is in the environment the guard
 passes and the one command in `RELEASE_CHECKLIST.md` runs it.
 

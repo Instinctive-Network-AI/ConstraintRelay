@@ -20,8 +20,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from cf import matching as mt                                     # noqa: E402
-from cf import review as rv                                       # noqa: E402
+from constraintrelay import matching as mt                                     # noqa: E402
+from constraintrelay import review as rv                                       # noqa: E402
 
 FAILS: list[str] = []
 COUNTS = {"checks": 0, "mutations": 0}

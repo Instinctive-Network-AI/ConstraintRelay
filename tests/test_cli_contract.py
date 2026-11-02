@@ -35,11 +35,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from cf.blocks import Block                       # noqa: E402
-from cf.cli import EXIT_ENFORCE, EXIT_ERROR, EXIT_OK, main  # noqa: E402
-from cf.profiles import InputFile                 # noqa: E402
-from cf.openclaw import OpenClawProfile           # noqa: E402
-from cf.scan import scan_under_profile            # noqa: E402
+from constraintrelay.blocks import Block                       # noqa: E402
+from constraintrelay.cli import EXIT_ENFORCE, EXIT_ERROR, EXIT_OK, main  # noqa: E402
+from constraintrelay.profiles import InputFile                 # noqa: E402
+from constraintrelay.openclaw import OpenClawProfile           # noqa: E402
+from constraintrelay.scan import scan_under_profile            # noqa: E402
 
 KEYWORD = "not for direct live-trading signals"
 PAD = "padding sentence that carries no policy vocabulary at all."
@@ -120,13 +120,13 @@ def check_version_flag() -> tuple[bool, dict]:
     developers do, and got a usage error and exit 2 — on a product whose
     claim is that a version resolves from bytes rather than from a label.
 
-    The expected string is read from `cf.__version__` rather than typed here:
+    The expected string is read from `constraintrelay.__version__` rather than typed here:
     a literal would be a second copy of the version, and this repository's
     own gates exist because copies of a figure drift. `argparse`'s `version`
     action exits with `SystemExit(0)`, which is the contract being asserted,
     so it is caught rather than allowed to end the suite.
     """
-    from cf import __version__ as installed
+    from constraintrelay import __version__ as installed
     buf, err = io.StringIO(), io.StringIO()
     code = None
     try:
@@ -186,7 +186,7 @@ def check_exit_codes() -> tuple[bool, list[dict]]:
 
         # Default profile set excludes replay-pending profiles.
         out = subprocess.run(
-            [sys.executable, "-m", "cf.cli", "scan", str(root), "--json"],
+            [sys.executable, "-m", "constraintrelay.cli", "scan", str(root), "--json"],
             cwd=ROOT, capture_output=True, text=True)
         payload = json.loads(out.stdout)
         names = [p["profile"] for p in payload["profiles"]]
@@ -207,7 +207,7 @@ def check_duplicate_discovery() -> tuple[bool, dict]:
     NOT_DELIVERED — a false definite status for delivered content. Found by
     the field test on 2026-09-30.
     """
-    from cf.cli import collect_context_files
+    from constraintrelay.cli import collect_context_files
     with tempfile.TemporaryDirectory(prefix="cf-dup-") as tmp:
         root = Path(tmp)
         (root / "AGENTS.md").write_text("# Team\n\n- one rule\n", encoding="utf-8")

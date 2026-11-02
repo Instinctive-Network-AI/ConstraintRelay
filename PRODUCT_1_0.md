@@ -70,10 +70,10 @@ listed separately in `SUPPORTED_HOSTS` or not at all.
 Target: parity with Guardrails AI's 7-line quickstart.
 
 ```python
-import constraintflow as cf
+import constraintrelay
 
-guard = cf.attach(client, host="openai-python",
-                  library="lib.json", source="./skills")
+guard = constraintrelay.attach(client, host="openai-python",
+                               library="lib.json", source="./skills")
 
 with guard.active("my-skill"):
     client.chat.completions.create(model=..., messages=[...], tools=[...])
@@ -81,7 +81,7 @@ with guard.active("my-skill"):
 guard.last_receipt.ok          # True
 ```
 
-`import cf` stays the internal implementation and keeps working. `cf.attach`
+`import constraintrelay` stays the internal implementation and keeps working. `constraintrelay.attach`
 still **requires** `host=` to be named — a recorded registry entry supplies
 role and position, so nothing is defaulted silently, and the receipt records
 which registry entry it came from.
@@ -90,7 +90,7 @@ which registry entry it came from.
 
 Receipts append to `.constraintflow/receipts.jsonl`; `constraintrelay receipts`
 reads them back: per request, verified / failed / no-declaration-due /
-attribution-unverified, reusing `cf.request_ledger`'s four states. Counted,
+attribution-unverified, reusing `constraintrelay.request_ledger`'s four states. Counted,
 never scored.
 
 ### S4 — Day-0 value **[1.0]** — done

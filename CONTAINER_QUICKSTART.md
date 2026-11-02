@@ -16,7 +16,7 @@ boundaries and to different depths. Neither is a claim about any other agent.
 | **Host** | `vibe-trading` @ **`dddf96e`** (pinned checkout) |
 | **Driven against** | a **real model request** — `deepseek-v4-pro`, **2026-10-18** |
 | **Verification boundary** | the `messages` list handed to `ChatLLM.stream_chat` (`agent/src/providers/chat.py:249`, called from `agent/src/agent/loop.py:732`). **Not** the bytes on the wire: serialisation happens downstream, inside the host's provider client, and nothing here observes it |
-| **How loads are observed** | from the **host's own load record**, read by `cf.container_hostrecord` — items carrying `name` and `dir_path` (`src/agent/skills.Skill`). A skill the host never loaded cannot be declared for. **That record carries no version**: none of the host's bundled `SKILL.md` files has a `version:` key, so the version resolves **from the bytes** via the library's content-hash binding, never from a hand-written label |
+| **How loads are observed** | from the **host's own load record**, read by `constraintrelay.container_hostrecord` — items carrying `name` and `dir_path` (`src/agent/skills.Skill`). A skill the host never loaded cannot be declared for. **That record carries no version**: none of the host's bundled `SKILL.md` files has a `version:` key, so the version resolves **from the bytes** via the library's content-hash binding, never from a hand-written label |
 | **Run configuration** | the runner sent `max_tokens: 1200` and **`thinking: {"type": "disabled"}`** via `extra_body`. **Both were set by the smoke runner, not by the host** — the host never sends a `thinking` request field. Recorded in `v2/out/SMOKE_RESULT.json` as `plan_deviation: "thinking:disabled"`, and those cells may not be used for behavioural observation |
 
 ### Real declaration connected
@@ -92,7 +92,7 @@ Four limits, because each has been mistaken for something stronger:
 | Host 1 `vibe-trading` | **one real request**, `deepseek-v4-pro`, 2026-10-18. The runner — not the host — set `max_tokens: 1200` and `thinking: disabled`, so those cells are unusable for behavioural observation |
 | Host 2 `hermes-agent` | **complete: 2 tasks × 2 arms against a real provider** (2026-10-22, `deepseek-v4-flash`, one cumulative ledger). Both arm-B cells carried the capsule in the **main-loop** request and **not** in the host's out-of-boundary summary (`capsule_in_request: [1, 0]`), and **both receipts verified at run time** at the named boundary. Measured input-token cost of this capsule: **+1,246** on T1 and **+1,244** on T2 — this capsule on these payloads, not a rate. Reconciled by `v2/smoke_matrix.py`; corrections to the earlier evidence are kept **beside** it in `HERMES_SMOKE_CORRECTIONS.json` rather than edited into it. Detail: `v2/HERMES_SMOKE.md` |
 
-| `cf.attach` — **the path this document recommends** | **one real request**, 2026-10-29, `deepseek-v4-flash`, on the same cumulative ledger. Until then this was the one path verified *everywhere except* against a provider: `v2/install_verify.py` runs the README's five-minute section on the built wheel against a **local HTTP stub**, the langgraph evidence reads the capsule out of a **local stub server's** parsed body, and both host rows above go through *adapters* rather than through `cf.attach`. Now: a real `openai.OpenAI` client, capsule at message index 1 of 2, `receipt.ok` true, provider response id `fcef3db8-…`, and the receipt's payload digest equal to the digest on the ledger row that paid for it. Detail: `v2/out/CLOSEOUT_ATTACH.json` |
+| `constraintrelay.attach` — **the path this document recommends** | **one real request**, 2026-10-29, `deepseek-v4-flash`, on the same cumulative ledger. Until then this was the one path verified *everywhere except* against a provider: `v2/install_verify.py` runs the README's five-minute section on the built wheel against a **local HTTP stub**, the langgraph evidence reads the capsule out of a **local stub server's** parsed body, and both host rows above go through *adapters* rather than through `constraintrelay.attach`. Now: a real `openai.OpenAI` client, capsule at message index 1 of 2, `receipt.ok` true, provider response id `fcef3db8-…`, and the receipt's payload digest equal to the digest on the ledger row that paid for it. Detail: `v2/out/CLOSEOUT_ATTACH.json` |
 
 **No wire bytes have been observed, on any of the three rows.** Every boundary
 here is the in-process message list; serialisation happens downstream, inside
@@ -126,11 +126,11 @@ Verified as an install rather than as a source tree: `v2/install_verify.py`
 builds a wheel from a clean clone, installs it into a fresh venv, and runs the
 CLI, the shortest example below and **both** hosts' integration examples with
 the repository's own `cf/` moved aside, so a source import cannot pass for an
-install (**41/41**, `v2/out/INSTALL_VERIFY.json`). Since 2026-10-23 that includes every command the README's five-minute section prints, run against the installed console script from a **clean-clone copy of the document** — three of them were broken for eight review rounds because every checker ran its own retyped version instead. The 1.0 product surface is covered there too: `import constraintflow` from the wheel, the README's five-minute path run end to end on it, and `constraintrelay receipts` reading back the sink that run wrote — counting the delivery **and** the gap. `import cf` passing says nothing about `import constraintflow`; they are two entries in `packages` and a wheel can carry one without the other. Since 2026-10-26 the reverse is checked too, and for the same reason: every check here reached the surface through `constraintflow`, so `cf.attach` — the entry point the ruling names — could raise `AttributeError` from the wheel with all of them green. `cf.attach` and `constraintflow.attach` are now asserted to be the **same object**, which a second definition of the surface would not be.
+install (**42/42**, `v2/out/INSTALL_VERIFY.json`). Since 2026-10-23 that includes every command the README's five-minute section prints, run against the installed console script from a **clean-clone copy of the document** — three of them were broken for eight review rounds because every checker ran its own retyped version instead. The 1.0 product surface is covered there too: `import constraintrelay` from the wheel, the README's five-minute path run end to end on it, and `constraintrelay receipts` reading back the sink that run wrote — counting the delivery **and** the gap. `import constraintrelay` passing says nothing about `import constraintrelay`; they are two entries in `packages` and a wheel can carry one without the other. Since 2026-10-26 the reverse is checked too, and for the same reason: every check here reached the surface through `constraintflow`, so `constraintrelay.attach` — the entry point the ruling names — could raise `AttributeError` from the wheel with all of them green. `constraintrelay.attach` and `constraintrelay.attach` are now asserted to be the **same object**, which a second definition of the surface would not be.
 
 It also runs `constraintrelay profiles` and `constraintrelay fingerprint` from
 the installed wheel, because those are the commands that read shipped data and
-`import cf` does not. The pre-release review found that the data lived in a
+`import constraintrelay` does not. The pre-release review found that the data lived in a
 **sibling** directory of `cf/` and a wheel therefore carried none of it:
 `profiles` raised `FileNotFoundError`, and `fingerprint` exited **0** while
 reporting every profile `UNRECORDED` — a wrong answer, not an error, because a
@@ -231,9 +231,9 @@ the same request **without** `tools` still fails.
 
 ```python
 import hashlib, json
-from cf.container_api import (load_library, load_manifests, ContainerRequest,
+from constraintrelay.container_api import (load_library, load_manifests, ContainerRequest,
                               SkillRequest, assemble, render, verify)
-from cf.container_adapter import AdapterConfig, prepare, assert_non_interference
+from constraintrelay.container_adapter import AdapterConfig, prepare, assert_non_interference
 
 # The host decides role and position. There are NO defaults — see below.
 cfg = AdapterConfig(role="user", position="append", host="my-agent")
@@ -263,8 +263,8 @@ rec = verify(res["messages"], asm, lib=lib, manifests=mans,
 print(rec.ok, rec.as_dict()["claims"])
 ```
 
-`cf.container_api.__all__` is what 0.2 promises. Other symbols in
-`cf.container*` are internal and may move.
+`constraintrelay.container_api.__all__` is what 0.2 promises. Other symbols in
+`constraintrelay.container*` are internal and may move.
 
 ---
 
@@ -300,7 +300,7 @@ half-supported.
 
 ### Reading the skills and versions out of your own load record
 
-`cf.container_hostrecord.resolve_from_host_record(record, libraries,
+`constraintrelay.container_hostrecord.resolve_from_host_record(record, libraries,
 source_roots=…, host=…)` takes your loader's record — anything with a
 `skills` sequence whose items carry a `name` and a `dir_path` — and resolves
 each loaded skill to **one** built version, or refuses it with a named

@@ -16,18 +16,18 @@ mine, not the environment's.
 
 | | |
 |---|---|
-| product version | `cf.__version__` = **0.1.0a1** — the preview version fixed by the Owner's ruling of 2026-10-25. `pyproject.toml`, `cf.__version__` and `cf.api.VERSION` are asserted equal by `v2/naming_gate.py`; `cf.api.VERSION` reads the package rather than restating it |
+| product version | `constraintrelay.__version__` = **0.1.0a1** — the preview version fixed by the Owner's ruling of 2026-10-25. `pyproject.toml`, `constraintrelay.__version__` and `constraintrelay.api.VERSION` are asserted equal by `v2/naming_gate.py`; `constraintrelay.api.VERSION` reads the package rather than restating it |
 | names | product **ConstraintRelay**, distribution and CLI **`constraintrelay`**. One source, `cf/naming.py`, bound to `pyproject.toml` by the same gate |
 | proposed tag | **`v0.1.0a1`** — a *proposal*. Nothing is tagged, and the gate fails if it ever is this round |
-| container API version | `cf.container_api.VERSION` = **0.2.0-dev-preview** |
+| container API version | `constraintrelay.container_api.VERSION` = **0.2.0-dev-preview** |
 | commit this list describes | **whatever commit `v2/out/INSTALL_VERIFY.json` records** — not retyped here. `v2/verify_claims.py` resolves that sha and fails if anything the install verification covers (every shipped package, the licence files, **this README it executes**, both host examples, and the checker itself) has changed since. A hand-typed sha in this row would be a second path to the same fact, and the one that goes stale |
 | Python | **3.11+**; every suite here was run on 3.13 |
 | runtime dependencies | **none.** Standard library only. Nothing in the delivery path imports `urllib`, `http`, `socket`, `requests` or `ssl` |
 | licence | **Apache-2.0**, `LICENSE` + `NOTICE`, both shipped via `license-files`. Five upstream licences verified at the exact commit each port derives from, blob shas in `NOTICE` |
 | published to an index | **no.** The ruling is no PyPI release for this preview. `constraintrelay` is unregistered on PyPI (404, read 2026-11-01) — so the name is free, and that is not a reason to publish |
 
-Only the names in `cf.container_api.__all__` are promised by 0.2. Everything
-else in `cf.container*` works, is readable, and may move.
+Only the names in `constraintrelay.container_api.__all__` are promised by 0.2. Everything
+else in `constraintrelay.container*` works, is readable, and may move.
 
 ## 2. Install and quick start
 
@@ -59,7 +59,7 @@ drift. In outline:
 4. install the guard on your client and open `guard.active(...)`;
 5. `constraintrelay receipts` to read the ledger back.
 
-Install verification: **41/41** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
+Install verification: **42/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
 from a clean clone, installed into a fresh venv, with the repository's own
 `cf/` **moved aside** so a source import cannot pass for an install. Every
 command the README prints is run against the installed console script.
@@ -202,7 +202,7 @@ neighbours claim judgements, claiming one checkable fact is the asset.
 | # | Blocker | What it needs |
 |---|---|---|
 | B1 | **CLOSED 2026-10-25** by the Owner's ruling, and re-settled 2026-11-01 when the product was renamed again. The distribution is `constraintrelay`, unregistered on PyPI (404, read 2026-11-01). The gate that forbids a runnable index install stays armed on the stronger reason — nothing is published — rather than being relaxed because the name conflict went away | — |
-| B2 | **The release directory is prepared; the repository is not created.** `v2/release_package.py` builds `release/constraintrelay/` from **20 whitelist patterns**: **96 whitelisted files**, with **97 tracked in the fresh history** — the extra one is the `.gitignore` the packager generates, which is shipped but was never copied in (**1 commit, no remote, no tag**), no old `.git`, and both artifacts built and scanned. The ruling says **do not create a remote**, so none exists | An Owner decision to create the public repository and push that history. Nothing here can be pushed by accident |
+| B2 | **The release directory is prepared; the repository is not created.** `v2/release_package.py` builds `release/constraintrelay/` from **19 whitelist patterns**: **95 whitelisted files**, with **96 tracked in the fresh history** — the extra one is the `.gitignore` the packager generates, which is shipped but was never copied in (**1 commit, no remote, no tag**), no old `.git`, and both artifacts built and scanned. The ruling says **do not create a remote**, so none exists | An Owner decision to create the public repository and push that history. Nothing here can be pushed by accident |
 | B3 | **No tag, by ruling.** `v0.1.0a1` is in `pyproject.toml` and is a *proposal*; `v2/naming_gate.py` fails if the tag exists | An Owner decision |
 
 **Pre-existing, carried from `RELEASE_CHECKLIST.md` (internal, not shipped in
@@ -210,7 +210,7 @@ this preview):**
 
 | # | Blocker | State |
 |---|---|---|
-| B4 | Rotate the DeepSeek credential exposed on 2026-10-03 | Fingerprint `8d573fa5` is in `cf.provider_guard.REVOKED_FINGERPRINTS`, so **no runner can use it** — refused before a request is formed. The rotation itself is the Owner's to do |
+| B4 | Rotate the DeepSeek credential exposed on 2026-10-03 | Fingerprint `8d573fa5` is in `constraintrelay.provider_guard.REVOKED_FINGERPRINTS`, so **no runner can use it** — refused before a request is formed. The rotation itself is the Owner's to do |
 | B5 | 2–3 real non-scripted sessions | Blocked by B4. **Not a qualification gate** — it records an ordinary limitation |
 | B6 | A "why this exists" page for someone who has not read the paper | Not written. This document is not it |
 
@@ -235,7 +235,7 @@ instead of in a fence; and any file that is not tracked markdown under
 
 **Ruled on 2026-10-25 and implemented** (detail in
 [`ROADMAP.md`](ROADMAP.md)): `host_system_message_unchanged` is now
-three-valued and `null` never passes; `cf.attach` is now **`cf.attach`**,
+three-valued and `null` never passes; `constraintrelay.attach` is now **`constraintrelay.attach`**,
 with no alias.
 
 ### What the release directory contains, and what it does not
@@ -287,14 +287,14 @@ so a published file cannot be third-party-derived without an entry.
 ### The import name stays `cf` for this preview — decided
 
 **Ruling 2026-10-26:** the import name is **`cf`** for this preview and the
-public entry point is **`cf.attach`**. The product name is **ConstraintRelay** and
+public entry point is **`constraintrelay.attach`**. The product name is **ConstraintRelay** and
 is no longer an open question; the distribution and CLI are `constraintrelay`.
 
 So the internal spellings below keep their current form, and
 `v2/naming_gate.py` asserts each is still spelled the old way — "I renamed the
 import name too" fails the gate:
 
-`import cf` · `import constraintflow` · `cf.version.IMPLEMENTATION`
+`import constraintrelay` · `import constraintrelay` · `constraintrelay.version.IMPLEMENTATION`
 (`constraintflow/0.7+analyzer.2`, recorded inside every receipt) ·
 `.constraintflow/` (the state directory holding `receipts.jsonl`) ·
 `.constraintflow.toml` · `constraintflow-declarations`,
@@ -306,7 +306,7 @@ Each is either evidence already written down, state already on disk, or bytes
 a receipt compares. The distribution `constraintrelay` therefore still ships a
 module called `constraintflow` alongside `cf` — **by decision, for this
 preview**, because renaming it would invalidate receipts already written and
-state already on disk. What a developer writes is `cf.attach`.
+state already on disk. What a developer writes is `constraintrelay.attach`.
 
 **Deliberately out of the preview:** fleet view (a heartbeat would change what
 the product is), the Anthropic adapter, and a sealed extraction holdout.

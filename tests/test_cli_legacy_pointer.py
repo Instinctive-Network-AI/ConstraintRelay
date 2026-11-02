@@ -41,7 +41,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from cf import naming                                          # noqa: E402
+from constraintrelay import naming                                          # noqa: E402
 
 PASSES: list = []
 FAILS: list = []
@@ -84,7 +84,7 @@ try:
     target = Path(base) / "probe"
     target.mkdir()
     # A command that PARSES and dispatches: `--help` would exit first.
-    argv = [sys.executable, "-m", "cf.cli", "init", str(target)]
+    argv = [sys.executable, "-m", "constraintrelay.cli", "init", str(target)]
 
     piped = subprocess.run(argv, cwd=str(ROOT), env=env, capture_output=True,
                            text=True)
@@ -104,19 +104,19 @@ try:
     check_("and it IS printed when stderr is a terminal: the pointer still "
            "reaches a human, so the tty condition is not a dead switch",
            NOTE in tty_err, tty_err[:200])
-    # Derived from `cf.naming`, not typed: the pointer is BUILT from the
+    # Derived from `constraintrelay.naming`, not typed: the pointer is BUILT from the
     # same constant, so a rename that moved one and not the other would be
     # invisible to an assertion carrying its own copy of the old name.
     check_("the printed pointer names the 0.2 route to use instead",
            naming.cmd("container") in tty_err, tty_err[:200])
 
-    nocmd = subprocess.run([sys.executable, "-m", "cf.cli", "container",
+    nocmd = subprocess.run([sys.executable, "-m", "constraintrelay.cli", "container",
                             "--help"], cwd=str(ROOT), env=env,
                            capture_output=True, text=True)
     check_("a 0.2 container command prints no legacy pointer at all, on "
            "either stream",
            NOTE not in nocmd.stdout and NOTE not in nocmd.stderr)
-    tty_new = read_pty([sys.executable, "-m", "cf.cli", "container", "check",
+    tty_new = read_pty([sys.executable, "-m", "constraintrelay.cli", "container", "check",
                         "--source", str(target), "--skill", "skills/none",
                         "--library", str(target / "nope.json")],
                        env).decode("utf-8", "replace")
@@ -124,7 +124,7 @@ try:
            "a tty is not what makes it print",
            NOTE not in tty_new, tty_new[:200])
 
-    top = subprocess.run([sys.executable, "-m", "cf.cli", "--help"],
+    top = subprocess.run([sys.executable, "-m", "constraintrelay.cli", "--help"],
                          cwd=str(ROOT), env=env, capture_output=True,
                          text=True)
     check_("the help text a pipe DOES see puts the container group first and "
