@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "constraintrelay"
+version = "0.1.0a1"
+description = "An independent source of truth for agent constraints: collect them from skills, store them canonically, and restate them into every model request."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Instinctive Network" }]
+keywords = ["agents", "llm", "constraints", "context", "skills"]
+
+# No runtime dependencies. The whole product runs on the standard library:
+# `tomllib` reads the store, `json`/`hashlib`/`re`/`pathlib` do the rest.
+# That is deliberate — a constraint store that cannot be read because a
+# dependency moved is worse than no store.
+dependencies = []
+
+[project.optional-dependencies]
+# Only needed to run the Vibe-Trading field tests against a real checkout.
+# `pydantic` is the harness's own requirement, not ConstraintRelay's.
+fieldtest = ["pydantic>=2"]
+
+[project.scripts]
+# The console script. `cf.naming.CLI` must equal this key, and
+# `v2/naming_gate.py` asserts it: a help text that prints a command the
+# install does not create is worse than no help text.
+constraintrelay = "cf.cli:main"
+
+[tool.setuptools]
+# Two packages, not one. `cf` is the implementation and keeps its interface;
+# `constraintflow` is the product surface a developer imports. Listing only
+# `cf` would ship a wheel whose documented first line — `import constraintflow`
+# — raises ImportError, which is the same shape as the defect that shipped a
+# wheel carrying none of its data: `v2/install_verify.py` now imports BOTH
+# from the installed wheel, because importing one says nothing about the other.
+packages = ["cf", "constraintflow"]
+
+[tool.setuptools.package-data]
+# The shipped profile data. This was `[]` and the data sat in a SIBLING
+# directory (`profiles/data/`), so a wheel carried none of it: four modules
+# resolved `parents[1] / "profiles" / "data"`, which is `site-packages` once
+# installed. `constraintflow profiles` then raised FileNotFoundError, and
+# `constraintflow fingerprint` reported every profile UNRECORDED at exit code
+# 0 — a wrong answer rather than an error. The data now lives in `cf/data/`
+# and travels with the package; `v2/install_verify.py` runs both commands
+# from the installed wheel so this cannot regress silently.
+cf = ["data/*.json"]
+
+# Apache-2.0 requires the NOTICE file to travel with any distribution that
+# includes it, and `license-files` above puts both it and LICENSE into the
+# wheel and the sdist.

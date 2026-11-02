@@ -1,0 +1,829 @@
+{
+  "harness": "openclaw",
+  "upstream_commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+  "tag": "v2026.9.1",
+  "governing_instrument": "owner ruling 2026-10-02, OpenClaw source-pointer delivery, item 2",
+  "ground_truth": "replays/openclaw/truth.mjs — the whole real loader, loadWorkspaceBootstrapFiles then buildBootstrapContextFiles, so the load set comes from the loader and not from cf.discover",
+  "steps_total": 10,
+  "cases_total": 24,
+  "steps_with_fixture": 10,
+  "steps_with_caught_mutation": 10,
+  "spans_traced_to_source": 87,
+  "steps_with_clean_span_provenance": 10,
+  "all_ok": true,
+  "records": [
+    {
+      "step": "1_file_list_and_order",
+      "source": "workspace.ts:1192, :59-71",
+      "pins_down": "the roster is exactly WORKSPACE_BOOTSTRAP_FILENAMES, in order, and no other filename is opened",
+      "cases": [
+        {
+          "case": "all six present plus two the loader ignores",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 55,
+            "BOOTSTRAP.md": 61,
+            "IDENTITY.md": 59,
+            "MEMORY.md": 55,
+            "SOUL.md": 51,
+            "USER.md": 51
+          },
+          "port_units": {
+            "AGENTS.md": 55,
+            "BOOTSTRAP.md": 61,
+            "IDENTITY.md": 59,
+            "MEMORY.md": 55,
+            "SOUL.md": 51,
+            "USER.md": 51
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 1,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 6,
+      "mutation": "the shared discovery union is used, adding CLAUDE.md — the CF-016 defect",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "all six present plus two the loader ignores"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "all six present plus two the loader ignores",
+          "differences": [
+            {
+              "file": "CLAUDE.md",
+              "real_units": null,
+              "port_units": 51,
+              "first_divergence": 0
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "2_defaults",
+      "source": "bootstrap.ts:89-90, :123-148, :386-389",
+      "pins_down": "the per-file default is exactly 20,000 and the total default 60,000",
+      "cases": [
+        {
+          "case": "one unit under the per-file default",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19999,
+            "BOOTSTRAP.md": 99,
+            "IDENTITY.md": 98,
+            "SOUL.md": 94
+          },
+          "port_units": {
+            "AGENTS.md": 19999,
+            "BOOTSTRAP.md": 99,
+            "IDENTITY.md": 98,
+            "SOUL.md": 94
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 1,
+          "bad_spans": []
+        },
+        {
+          "case": "one unit over the per-file default",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 99,
+            "IDENTITY.md": 98,
+            "SOUL.md": 94
+          },
+          "port_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 99,
+            "IDENTITY.md": 98,
+            "SOUL.md": 94
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 2,
+          "bad_spans": []
+        },
+        {
+          "case": "a per-file cap above the total default raises the total",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 39117,
+            "IDENTITY.md": 1,
+            "SOUL.md": 25882
+          },
+          "port_units": {
+            "AGENTS.md": 39117,
+            "IDENTITY.md": 1,
+            "SOUL.md": 25882
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 4,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 3,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 7,
+      "mutation": "the per-file default becomes 20,001",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "one unit over the per-file default"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "one unit over the per-file default",
+          "differences": [
+            {
+              "file": "AGENTS.md",
+              "real_units": 12116,
+              "port_units": 20001,
+              "first_divergence": 9000
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "3_unit_is_utf16_code_units",
+      "source": "bootstrap.ts: sliceUtf16Safe/truncateUtf16Safe",
+      "pins_down": "lengths and slices are UTF-16 code units, and a cut never splits a surrogate pair",
+      "cases": [
+        {
+          "case": "a surrogate pair exactly on the AGENTS head boundary",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12115,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 110
+          },
+          "port_units": {
+            "AGENTS.md": 12115,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 110
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 2,
+          "bad_spans": []
+        },
+        {
+          "case": "many astral characters across a generic cut",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 19998
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 19998
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 2,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 5,
+      "mutation": "lengths and slices are Python code points",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "a surrogate pair exactly on the AGENTS head boundary",
+        "many astral characters across a generic cut"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "a surrogate pair exactly on the AGENTS head boundary",
+          "differences": [
+            {
+              "file": "AGENTS.md",
+              "real_units": 12115,
+              "port_units": 12116,
+              "first_divergence": 8999
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "4_trailing_whitespace_trimend",
+      "source": "bootstrap.ts:271",
+      "pins_down": "trailing whitespace is stripped before the cap comparison, and the stripped set is ECMAScript's, not Python's",
+      "cases": [
+        {
+          "case": "exactly at the cap plus ECMAScript-only trailing whitespace",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 20000,
+            "BOOTSTRAP.md": 118,
+            "IDENTITY.md": 117,
+            "SOUL.md": 113
+          },
+          "port_units": {
+            "AGENTS.md": 20000,
+            "BOOTSTRAP.md": 118,
+            "IDENTITY.md": 117,
+            "SOUL.md": 113
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 1,
+          "bad_spans": []
+        },
+        {
+          "case": "leading whitespace is kept",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 118,
+            "IDENTITY.md": 117,
+            "SOUL.md": 113
+          },
+          "port_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 118,
+            "IDENTITY.md": 117,
+            "SOUL.md": 113
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 2,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 2,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 3,
+      "mutation": "Python str.rstrip(), which keeps U+FEFF",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "exactly at the cap plus ECMAScript-only trailing whitespace"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "exactly at the cap plus ECMAScript-only trailing whitespace",
+          "differences": [
+            {
+              "file": "AGENTS.md",
+              "real_units": 20000,
+              "port_units": 12116,
+              "first_divergence": 9000
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "5_user_md_own_cap",
+      "source": "bootstrap.ts:93, :422-424",
+      "pins_down": "USER.md is capped at 4,000 even though the per-file cap is 20,000",
+      "cases": [
+        {
+          "case": "USER.md well past its own pin",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 106,
+            "IDENTITY.md": 105,
+            "SOUL.md": 101,
+            "USER.md": 3999
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 106,
+            "IDENTITY.md": 105,
+            "SOUL.md": 101,
+            "USER.md": 3999
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        },
+        {
+          "case": "a per-file cap below the pin wins",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 106,
+            "IDENTITY.md": 105,
+            "SOUL.md": 101,
+            "USER.md": 2499
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 106,
+            "IDENTITY.md": 105,
+            "SOUL.md": 101,
+            "USER.md": 2499
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 2,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 6,
+      "mutation": "USER.md falls back to the 20,000 per-file cap",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "USER.md well past its own pin"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "USER.md well past its own pin",
+          "differences": [
+            {
+              "file": "USER.md",
+              "real_units": 3999,
+              "port_units": 8000,
+              "first_divergence": 2922
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "6_missing_files_consume_budget",
+      "source": "bootstrap.ts:403-414",
+      "pins_down": "an absent AGENTS/SOUL/IDENTITY/BOOTSTRAP still occupies a slot and spends budget, while an absent USER/MEMORY is dropped before the budget is consulted",
+      "cases": [
+        {
+          "case": "absent BOOTSTRAP.md charges the remaining budget",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 44,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 20
+          },
+          "port_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 44,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 20
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        },
+        {
+          "case": "absent USER.md and MEMORY.md produce no record",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 14,
+            "BOOTSTRAP.md": 119,
+            "IDENTITY.md": 118,
+            "SOUL.md": 114
+          },
+          "port_units": {
+            "AGENTS.md": 14,
+            "BOOTSTRAP.md": 119,
+            "IDENTITY.md": 118,
+            "SOUL.md": 114
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 1,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 2,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 7,
+      "mutation": "absent slots are dropped, so they cost nothing",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "absent BOOTSTRAP.md charges the remaining budget",
+        "absent USER.md and MEMORY.md produce no record"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "absent BOOTSTRAP.md charges the remaining budget",
+          "differences": [
+            {
+              "file": "BOOTSTRAP.md",
+              "real_units": 44,
+              "port_units": null,
+              "first_divergence": 0
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "7_shared_budget_floor_64",
+      "source": "bootstrap.ts:94, :416-421",
+      "pins_down": "at remaining 64 the file is delivered; below the floor this and every later file is skipped",
+      "cases": [
+        {
+          "case": "remaining 64 — at the floor, delivered",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 44,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 20
+          },
+          "port_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 44,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 20
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        },
+        {
+          "case": "remaining 63 — one under the floor, skipped",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19939,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999
+          },
+          "port_units": {
+            "AGENTS.md": 19939,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 5,
+          "bad_spans": []
+        },
+        {
+          "case": "remaining 14 — well under the floor, skipped",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19988,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999
+          },
+          "port_units": {
+            "AGENTS.md": 19988,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 5,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 3,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 16,
+      "mutation": "the shared-budget floor becomes 1",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "remaining 63 — one under the floor, skipped",
+        "remaining 14 — well under the floor, skipped"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "remaining 63 — one under the floor, skipped",
+          "differences": [
+            {
+              "file": "BOOTSTRAP.md",
+              "real_units": null,
+              "port_units": 43,
+              "first_divergence": 0
+            },
+            {
+              "file": "USER.md",
+              "real_units": null,
+              "port_units": 20,
+              "first_divergence": 0
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "8_per_file_budget_and_clamp",
+      "source": "bootstrap.ts:425, :367-379",
+      "pins_down": "a file's budget is min(its cap, the remaining total); the clamp is reachable only on a missing-file record, where it appends an ellipsis",
+      "cases": [
+        {
+          "case": "remaining, not the cap, decides a real file's budget",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19988,
+            "BOOTSTRAP.md": 1,
+            "IDENTITY.md": 18400,
+            "SOUL.md": 19999,
+            "USER.md": 1612
+          },
+          "port_units": {
+            "AGENTS.md": 19988,
+            "BOOTSTRAP.md": 1,
+            "IDENTITY.md": 18400,
+            "SOUL.md": 19999,
+            "USER.md": 1612
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        },
+        {
+          "case": "a missing-file record longer than the remaining budget is clamped with an ellipsis",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 54,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 10
+          },
+          "port_units": {
+            "AGENTS.md": 19938,
+            "BOOTSTRAP.md": 54,
+            "IDENTITY.md": 19999,
+            "SOUL.md": 19999,
+            "USER.md": 10
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 2,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 12,
+      "mutation": "the clamp omits the ellipsis",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "a missing-file record longer than the remaining budget is clamped with an ellipsis"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "a missing-file record longer than the remaining budget is clamped with an ellipsis",
+          "differences": [
+            {
+              "file": "BOOTSTRAP.md",
+              "real_units": 54,
+              "port_units": 54,
+              "first_divergence": 53
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "9_generic_truncation_75_25",
+      "source": "bootstrap.ts:99-100, :266-365",
+      "pins_down": "non-AGENTS truncation is head 75% / tail 25% with a self-sized marker, and a small budget switches to the compact marker",
+      "cases": [
+        {
+          "case": "a large file, five-digit kept counts",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 19999
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 19999
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        },
+        {
+          "case": "counts near a digit boundary",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 1336
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 1336
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        },
+        {
+          "case": "a budget small enough for the compact marker",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 69
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 69
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 3,
+          "bad_spans": []
+        },
+        {
+          "case": "a budget small enough for the single-head fallback",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 23
+          },
+          "port_units": {
+            "AGENTS.md": 11,
+            "BOOTSTRAP.md": 115,
+            "IDENTITY.md": 114,
+            "SOUL.md": 23
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 2,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 4,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 11,
+      "mutation": "head/tail ratios are swapped to 25/75",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "a large file, five-digit kept counts",
+        "counts near a digit boundary",
+        "a budget small enough for the compact marker",
+        "a budget small enough for the single-head fallback"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "a large file, five-digit kept counts",
+          "differences": [
+            {
+              "file": "SOUL.md",
+              "real_units": 19999,
+              "port_units": 19999,
+              "first_divergence": 4973
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    },
+    {
+      "step": "10_agents_policy_digest_45_35_15",
+      "source": "bootstrap.ts:104-107, :214-262",
+      "pins_down": "AGENTS.md takes the 45/35/15 policy-digest path; candidacy, priority and the 240-unit line cut all apply",
+      "cases": [
+        {
+          "case": "digest candidacy, priority and the 240-unit cut",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12507,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "port_units": {
+            "AGENTS.md": 12507,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        },
+        {
+          "case": "the same file with CRLF line endings",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12507,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "port_units": {
+            "AGENTS.md": 12507,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 6,
+          "bad_spans": []
+        },
+        {
+          "case": "no candidate line, so no digest block",
+          "agrees": true,
+          "real_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "port_units": {
+            "AGENTS.md": 12116,
+            "BOOTSTRAP.md": 121,
+            "IDENTITY.md": 120,
+            "SOUL.md": 116
+          },
+          "differences": [],
+          "span_provenance_ok": true,
+          "spans_checked": 2,
+          "bad_spans": []
+        }
+      ],
+      "case_count": 3,
+      "fixture_agrees_with_real_loader": true,
+      "span_provenance_ok": true,
+      "spans_checked": 14,
+      "mutation": "digest lines are cut at 240 instead of 239 + ellipsis",
+      "mutation_caught": true,
+      "mutation_caught_by": [
+        "digest candidacy, priority and the 240-unit cut",
+        "the same file with CRLF line endings"
+      ],
+      "mutation_evidence": [
+        {
+          "case": "digest candidacy, priority and the 240-unit cut",
+          "differences": [
+            {
+              "file": "AGENTS.md",
+              "real_units": 12507,
+              "port_units": 12508,
+              "first_divergence": 9439
+            }
+          ]
+        }
+      ],
+      "mutation_reverted": true,
+      "ok": true
+    }
+  ]
+}

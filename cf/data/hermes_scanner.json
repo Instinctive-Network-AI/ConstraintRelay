@@ -1,0 +1,569 @@
+{
+  "harness": "hermes-agent",
+  "commit": "2517917de34eeb6a40f5a17a2e59d9746803dfa5",
+  "generated_by": "tests/test_hermes_scanner_qualification.py",
+  "rule_source": "tools.threat_patterns.get_patterns_for_scope('context') plus the real invisible-character set — the pinned implementation, not our extracted copy",
+  "rules_total": 45,
+  "rules_regex": 28,
+  "rules_invisible": 17,
+  "rules_with_positive_and_near_miss": 45,
+  "crafted_expected_vs_real_2x2": {
+    "tp": 45,
+    "fn": 0,
+    "tn": 45,
+    "fp": 0
+  },
+  "crafted_model_vs_real_2x2": {
+    "both_reject": 45,
+    "both_allow": 45,
+    "model_rejects_real_allows": 0,
+    "model_allows_real_rejects": 0
+  },
+  "corpus_model_vs_real_2x2": {
+    "both_reject": 0,
+    "both_allow": 67,
+    "model_rejects_real_allows": 0,
+    "model_allows_real_rejects": 0
+  },
+  "corpus_files": 67,
+  "corpus_root": "<home>/.openclaw/workspace",
+  "loader_level_cases": [
+    {
+      "case": "scanner_rejection_blocks_the_whole_file",
+      "ok": true,
+      "blocked_notice": true,
+      "unrelated_text_survived": false,
+      "mechanism": "the entire file is replaced, size-independent"
+    },
+    {
+      "case": "blocked_tier1_does_NOT_fall_back_to_tier2",
+      "ok": true,
+      "blocked_notice": true,
+      "tier2_used_as_fallback": false,
+      "mechanism": "_load_hermes_md returns the BLOCKED notice, which is truthy, so the `or` chain in build_context_files_prompt short-circuits and tier 2 is never consulted — a poisoned tier-1 file suppresses the whole chain"
+    },
+    {
+      "case": "clean_tier1_absent_does_fall_back_to_tier2",
+      "ok": true,
+      "tier2_used": true,
+      "mechanism": "search/fallback works when tier 1 is absent rather than blocked"
+    },
+    {
+      "case": "clean_file_is_not_blocked",
+      "ok": true,
+      "blocked_notice": false,
+      "mechanism": "negative control for the loader-level cases"
+    }
+  ],
+  "capsule_text_trips_scanner": {
+    "constraint_text_is_a_scanner_trigger": true,
+    "real_loader_blocks_the_file": true,
+    "constraint_text_absent_from_real_output": true,
+    "receipt_outcome": "DELIVERY_FAILED",
+    "member_status": "NOT_DELIVERED",
+    "cause_is_loader_rejection": false,
+    "missing_ids": [
+      "OPS-9"
+    ],
+    "ok": true
+  },
+  "per_rule": [
+    {
+      "rule": "prompt_injection",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "prompt_injection"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "sys_prompt_override",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "sys_prompt_override"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "disregard_rules",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "disregard_rules"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "bypass_restrictions",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "bypass_restrictions"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "html_comment_injection",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "html_comment_injection"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "hidden_div",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "hidden_div"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "translate_execute",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "translate_execute"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "deception_hide",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "deception_hide"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "role_hijack",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "role_hijack"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "role_pretend",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "role_pretend"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "leak_system_prompt",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "leak_system_prompt"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "remove_filters",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "remove_filters"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "fake_update",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "fake_update"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "identity_override",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "identity_override"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_node_registration",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_node_registration"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_heartbeat",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_heartbeat"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_task_pull",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_task_pull"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_network_connect",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_network_connect"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "forced_action",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "forced_action"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "anti_forensic_oneliner",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "anti_forensic_oneliner"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "anti_forensic_disk",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "anti_forensic_disk"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "env_var_unset_agent",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "env_var_unset_agent"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "known_c2_framework",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "known_c2_framework"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_explicit",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_explicit"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "c2_explicit_long",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "c2_explicit_long"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "exfil_curl",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "exfil_curl"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "exfil_wget",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "exfil_wget"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "read_secrets",
+      "kind": "regex",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "read_secrets"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+200B",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+200B"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+200C",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+200C"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+200D",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+200D"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+202A",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+202A"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+202B",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+202B"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+202C",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+202C"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+202D",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+202D"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+202E",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+202E"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2060",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2060"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2062",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2062"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2063",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2063"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2064",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2064"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2066",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2066"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2067",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2067"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2068",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2068"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+2069",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+2069"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    },
+    {
+      "rule": "invisible_unicode_U+FEFF",
+      "kind": "invisible",
+      "positive_fires_this_rule": true,
+      "positive_findings": [
+        "invisible_unicode_U+FEFF"
+      ],
+      "near_miss_is_silent": true,
+      "near_miss_findings": [],
+      "ok": true
+    }
+  ],
+  "failures": [],
+  "all_pass": true
+}

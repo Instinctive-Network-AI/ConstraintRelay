@@ -1,0 +1,207 @@
+{
+  "harness": "hermes-agent",
+  "commit": "2517917de34eeb6a40f5a17a2e59d9746803dfa5",
+  "loader": "agent/prompt_builder.py::build_context_files_prompt",
+  "derivation": "every entry below was established by executing the real loader against the named fixture; nothing here was read from cf/profiles.py",
+  "generated_by": "tests/test_hermes_layers.py",
+  "layers": [
+    {
+      "layer": "tier1_cwd_.hermes.md",
+      "state": "OBSERVED",
+      "mechanism": "first-found project context, highest priority",
+      "fixtures": [
+        "t1-0: single .hermes.md in cwd"
+      ],
+      "evidence": "delivered=True, section header present=True"
+    },
+    {
+      "layer": "tier1_cwd_HERMES.md",
+      "state": "OBSERVED",
+      "mechanism": "first-found project context, highest priority",
+      "fixtures": [
+        "t1-1: single HERMES.md in cwd"
+      ],
+      "evidence": "delivered=True, section header present=True"
+    },
+    {
+      "layer": "tier1_spelling_order",
+      "state": "OBSERVED",
+      "mechanism": ".hermes.md precedes HERMES.md within one directory",
+      "fixtures": [
+        "t1-order: both spellings in cwd"
+      ],
+      "evidence": "dot=True, upper=False"
+    },
+    {
+      "layer": "tier1_ancestor_walk",
+      "state": "OBSERVED",
+      "mechanism": "walk from cwd through parents to the git root inclusive",
+      "fixtures": [
+        "t1-walk: .hermes.md at the git root, cwd three levels down"
+      ],
+      "evidence": "delivered from three levels down=True"
+    },
+    {
+      "layer": "tier1_walk_stops_at_git_root",
+      "state": "OBSERVED",
+      "mechanism": "the walk breaks after examining the git root",
+      "fixtures": [
+        "t1-stop: .hermes.md one level above a git root"
+      ],
+      "evidence": "file above the git root delivered=False (must be False)"
+    },
+    {
+      "layer": "tier1_frontmatter_stripped",
+      "state": "OBSERVED",
+      "mechanism": "_strip_yaml_frontmatter, tier 1 only, before scan and cap",
+      "fixtures": [
+        "t1-front: clause inside frontmatter plus a body clause"
+      ],
+      "evidence": "frontmatter clause delivered=False (must be False), body=True"
+    },
+    {
+      "layer": "tier1_frontmatter_only_returns_original",
+      "state": "OBSERVED",
+      "mechanism": "`return body if body else content` — an all-frontmatter file is returned unchanged",
+      "fixtures": [
+        "t1-front-only: a file that is nothing but frontmatter"
+      ],
+      "evidence": "delivered=True"
+    },
+    {
+      "layer": "tier2_agents_cwd",
+      "state": "OBSERVED",
+      "mechanism": "AGENTS.md read from the working directory",
+      "fixtures": [
+        "t-cwd-0: single AGENTS.md in cwd"
+      ],
+      "evidence": "delivered=True"
+    },
+    {
+      "layer": "tier2_agents_lower_cwd",
+      "state": "OBSERVED",
+      "mechanism": "agents.md read from the working directory",
+      "fixtures": [
+        "t-cwd-1: single agents.md in cwd"
+      ],
+      "evidence": "delivered=True"
+    },
+    {
+      "layer": "tier3_claude_cwd",
+      "state": "OBSERVED",
+      "mechanism": "CLAUDE.md read from the working directory",
+      "fixtures": [
+        "t-cwd-2: single CLAUDE.md in cwd"
+      ],
+      "evidence": "delivered=True"
+    },
+    {
+      "layer": "tier4_cursorrules_cwd",
+      "state": "OBSERVED",
+      "mechanism": ".cursorrules read from the working directory",
+      "fixtures": [
+        "t-cwd-3: single .cursorrules in cwd"
+      ],
+      "evidence": "delivered=True"
+    },
+    {
+      "layer": "tier2_agents_does_not_walk",
+      "state": "OBSERVED",
+      "mechanism": "AGENTS.md is cwd-only; no ancestor search",
+      "fixtures": [
+        "t-anc-0: AGENTS.md at the git root, cwd one level down"
+      ],
+      "evidence": "ancestor AGENTS.md delivered=False (must be False)"
+    },
+    {
+      "layer": "tier3_claude_does_not_walk",
+      "state": "OBSERVED",
+      "mechanism": "CLAUDE.md is cwd-only; no ancestor search",
+      "fixtures": [
+        "t-anc-1: CLAUDE.md at the git root, cwd one level down"
+      ],
+      "evidence": "ancestor CLAUDE.md delivered=False (must be False)"
+    },
+    {
+      "layer": "tier4_cursorrules_does_not_walk",
+      "state": "OBSERVED",
+      "mechanism": ".cursorrules is cwd-only; no ancestor search",
+      "fixtures": [
+        "t-anc-2: .cursorrules at the git root, cwd one level down"
+      ],
+      "evidence": "ancestor .cursorrules delivered=False (must be False)"
+    },
+    {
+      "layer": "tier4_group_concatenated",
+      "state": "OBSERVED",
+      "mechanism": ".cursorrules and every .cursor/rules/*.mdc join into ONE capped section",
+      "fixtures": [
+        "t4-group: .cursorrules plus two .mdc files"
+      ],
+      "evidence": "cursorrules=True, mdc1=True, mdc2=True"
+    },
+    {
+      "layer": "priority_first_found_wins",
+      "state": "OBSERVED",
+      "mechanism": "only ONE project context type is loaded",
+      "fixtures": [
+        "priority: all four tiers present at once"
+      ],
+      "evidence": "delivered tiers: p1"
+    },
+    {
+      "layer": "per_source_cap",
+      "state": "OBSERVED",
+      "mechanism": "each context source capped at 20000 chars, head+tail kept with a marker",
+      "fixtures": [
+        "cap: a clause in the dropped middle of an over-cap AGENTS.md"
+      ],
+      "evidence": "head=True, mid=False (must be False), tail=True, marker=True"
+    },
+    {
+      "layer": "content_scan_blocks_whole_file",
+      "state": "OBSERVED",
+      "mechanism": "_scan_context_content replaces the ENTIRE file with a [BLOCKED] notice; size plays no part",
+      "fixtures": [
+        "scan: a 3-byte UTF-8 BOM at the head of AGENTS.md"
+      ],
+      "evidence": "clause delivered=False (must be False), notice=True"
+    },
+    {
+      "layer": "no_context_returns_empty",
+      "state": "OBSERVED",
+      "mechanism": "no sections -> empty string, not a preamble with nothing under it",
+      "fixtures": [
+        "empty: a git repository with no instruction file"
+      ],
+      "evidence": "output length=0"
+    },
+    {
+      "layer": "external_soul_md_appended",
+      "state": "OBSERVED",
+      "mechanism": "HERMES_HOME/SOUL.md is appended as an independent section; capped by its own _truncate_content call, so it cannot displace project text",
+      "fixtures": [
+        "soul: HERMES_HOME pointed at a directory holding SOUL.md"
+      ],
+      "evidence": "soul in with_soul=True, soul in skip_soul=False, project text still delivered=True"
+    },
+    {
+      "layer": "outside_git_repo_walk_has_no_stop",
+      "state": "OBSERVED",
+      "mechanism": "_find_git_root returns None, so the walk runs to the filesystem root and an ancestor file outside any repository is still loaded",
+      "fixtures": [
+        "nogit: .hermes.md two levels up, no .git anywhere"
+      ],
+      "evidence": "delivered with no git root=True"
+    },
+    {
+      "layer": "git_as_file_stops_the_walk",
+      "state": "OBSERVED",
+      "mechanism": "_find_git_root tests (parent/'.git').exists(), which a worktree's `.git` FILE satisfies, so the walk stops there as at a directory",
+      "fixtures": [
+        "gitfile: `.git` as a plain file, .hermes.md one level above"
+      ],
+      "evidence": "file above the .git file delivered=False (must be False)"
+    }
+  ]
+}

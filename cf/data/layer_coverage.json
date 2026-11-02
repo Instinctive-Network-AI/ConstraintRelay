@@ -1,0 +1,268 @@
+{
+  "requirement": "ruling item 5: every documented loader layer must have at least one fixture/mutation capable of making the receipt fail",
+  "generated_by": "tests/test_layer_coverage.py",
+  "delivery_affecting_layers_covered": 14,
+  "layers_recorded_with_a_reason": 15,
+  "uncovered": [],
+  "rows": [
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_cwd_.hermes.md",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read, not whether text survives"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_cwd_HERMES.md",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read, not whether text survives"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_spelling_order",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "orders two candidates; neither outcome drops text"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_ancestor_walk",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t1-walk: .hermes.md at the git root, cwd three levels down"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_walk_stops_at_git_root",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t1-stop: .hermes.md one level above a git root"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_frontmatter_stripped",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t1-front: clause inside frontmatter plus a body clause"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier1_frontmatter_only_returns_original",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "an exception that *keeps* text; its loss counterpart is tier1_frontmatter_stripped"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier2_agents_cwd",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier2_agents_lower_cwd",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier3_claude_cwd",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier4_cursorrules_cwd",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "decides which file is read"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier2_agents_does_not_walk",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t-anc-0: AGENTS.md at the git root, cwd one level down"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier3_claude_does_not_walk",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t-anc-1: CLAUDE.md at the git root, cwd one level down"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier4_cursorrules_does_not_walk",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "t-anc-2: .cursorrules at the git root, cwd one level down"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "tier4_group_concatenated",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "joins sources; the loss is the shared cap, covered separately by per_source_cap"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "priority_first_found_wins",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "priority: all four tiers present at once"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "per_source_cap",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "cap: a clause in the dropped middle of an over-cap AGENTS.md"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "content_scan_blocks_whole_file",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "scan: a 3-byte UTF-8 BOM at the head of AGENTS.md"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "no_context_returns_empty",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "there is no capsule to deliver when there is no instruction file; the placement failure is covered by capsule_outside_load_set in the slice"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "external_soul_md_appended",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "adds an independent section; it cannot displace repository text, which is why the external-input gate asks for a declaration rather than a budget"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "outside_git_repo_walk_has_no_stop",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "widens the walk; the narrowing counterpart is tier1_walk_stops_at_git_root"
+    },
+    {
+      "profile": "hermes-agent/context-loader-v1",
+      "layer": "git_as_file_stops_the_walk",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 3,
+      "fixture": "gitfile: `.git` as a plain file, .hermes.md one level above"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "under_budget_delivered_whole",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "no cap applies, so nothing is lost"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "per_file_cap_head_tail",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 5,
+      "fixture": "over-cap SOUL.md with head/middle/tail markers"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "agents_policy_digest",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": true,
+      "missing_qualification": 5,
+      "fixture": "over-cap AGENTS.md with a bullet and a bare-prose line in the middle"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "user_md_pinned_budget",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 5,
+      "fixture": "USER.md padded past 4,000 units with head/middle/tail markers"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "shared_total_budget_exhaustion",
+      "covered": true,
+      "can_fail": true,
+      "outcome": "DELIVERY_FAILED",
+      "uncapped_delivery_outcome": "DELIVERY_FAILED",
+      "capsule_delivered": false,
+      "missing_qualification": 5,
+      "fixture": "four files at the per-file cap ahead of a small USER.md"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "no_discovery_no_ancestor_search",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "an absence of behaviour; there is no mechanism to fire"
+    },
+    {
+      "profile": "openclaw/context-loader-v1",
+      "layer": "git_state_is_irrelevant",
+      "covered": true,
+      "can_fail": false,
+      "why_not": "the observation that one input does not affect delivery"
+    }
+  ]
+}

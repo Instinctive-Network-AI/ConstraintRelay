@@ -1,0 +1,73 @@
+{
+  "harness": "openclaw",
+  "bundle_version": "2026.9.1",
+  "fingerprint_basis": "built artifact (dist/bootstrap-D7cACmY4.js)",
+  "loader": "buildBootstrapContextFiles (real, via replays/openclaw/deliver.mjs)",
+  "derivation": "every entry below was established by executing the real bundle; nothing here was read from cf/openclaw.py",
+  "generated_by": "tests/test_openclaw_layers.py",
+  "layers": [
+    {
+      "layer": "under_budget_delivered_whole",
+      "state": "OBSERVED",
+      "mechanism": "no cap applies below the per-file budget",
+      "fixtures": [
+        "small AGENTS.md"
+      ],
+      "evidence": "delivered=True, bundle=2026.9.1"
+    },
+    {
+      "layer": "per_file_cap_head_tail",
+      "state": "OBSERVED",
+      "mechanism": "head 75% + marker + tail 25%, per file",
+      "fixtures": [
+        "over-cap SOUL.md with head/middle/tail markers"
+      ],
+      "evidence": "head=True, middle=False (must be False), tail=True"
+    },
+    {
+      "layer": "agents_policy_digest",
+      "state": "OBSERVED",
+      "mechanism": "AGENTS.md is rebuilt as head 45% + policy digest 35% + tail 15%; the digest admits headings, list items and keyword matches, so bare prose in the dropped middle is lost",
+      "fixtures": [
+        "over-cap AGENTS.md with a bullet and a bare-prose line in the middle"
+      ],
+      "evidence": "digest marker=True, bullet=True, bare prose=False (must be False)"
+    },
+    {
+      "layer": "user_md_pinned_budget",
+      "state": "OBSERVED",
+      "mechanism": "USER.md is capped at 4,000 units regardless of the per-file budget",
+      "fixtures": [
+        "USER.md padded past 4,000 units with head/middle/tail markers"
+      ],
+      "evidence": "delivered units=4000 (must be <= 4000), head=True, middle=False (must be False), tail=True"
+    },
+    {
+      "layer": "shared_total_budget_exhaustion",
+      "state": "OBSERVED",
+      "mechanism": "one 60,000-unit total across the load set in submission order; a file reached with less than the 64-unit floor remaining is dropped WHOLE, not truncated",
+      "fixtures": [
+        "four files at the per-file cap ahead of a small USER.md"
+      ],
+      "evidence": "delivered files=['AGENTS.md', 'CLAUDE.md', 'IDENTITY.md', 'SOUL.md']; USER.md present=False (must be False)"
+    },
+    {
+      "layer": "no_discovery_no_ancestor_search",
+      "state": "OBSERVED",
+      "mechanism": "the loader is handed a file list and delivers from it; it reads nothing the caller did not submit, so it has no ancestor search and no git awareness",
+      "fixtures": [
+        "a single submitted file"
+      ],
+      "evidence": "delivered set=['AGENTS.md'], submitted set=['AGENTS.md']"
+    },
+    {
+      "layer": "git_state_is_irrelevant",
+      "state": "OBSERVED",
+      "mechanism": "delivery is a pure function of the submitted list and the budgets; the loader never consults git, so behaviour outside a repository and with `.git` as a file is the same behaviour",
+      "fixtures": [
+        "the identical list submitted twice"
+      ],
+      "evidence": "byte-identical across runs=True; no git path exists in the delivered record to vary"
+    }
+  ]
+}

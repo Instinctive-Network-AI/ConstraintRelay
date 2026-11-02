@@ -1,0 +1,81 @@
+{
+  "_note": [
+    "Hermes-audit ruling item 3: ONE exact tag/commit for the Hermes version",
+    "ConstraintFlow intends to support. Not a moving `latest` \u2014 the tag and its",
+    "annotated-tag sha are both recorded here, so a later release does not silently",
+    "become the target.",
+    "",
+    "Changing the target is a deliberate act: edit this file, re-derive the run path",
+    "(item 7), and run a fresh holdout. H1-H3 do NOT carry over; they are evidence",
+    "about the legacy profile only."
+  ],
+  "legacy": {
+    "profile_id": "hermes-agent/context-loader-v1",
+    "commit": "2517917de34eeb6a40f5a17a2e59d9746803dfa5",
+    "short": "2517917de",
+    "commit_date": "2026-05-25",
+    "ref_on_this_host": "heads/main",
+    "status": "LEGACY \u2014 provisional, not a qualification target",
+    "why_it_was_selected": [
+      "It is `heads/main` of the clone that happened to exist at ~/.hermes/hermes-agent",
+      "on this host. It was selected for replay convenience: a real loader that could",
+      "be executed today, which A1 requires and which no other Hermes checkout here",
+      "could provide.",
+      "It is not a tag, not a release, and it predates every published release tag \u2014",
+      "the oldest is v2026.7.7, roughly six weeks later.",
+      "Ruling item 2 therefore applies: do not spend effort completing current-product",
+      "qualification on it."
+    ],
+    "evidence_scope": [
+      "H1, H2 and H3 are evidence about THIS commit only.",
+      "H3 (30 frozen pairs, 22 evaluated, 1,576 definite verdicts, 0 false definite)",
+      "cannot qualify the pinned target below, and the ruling says so explicitly:",
+      "loader behaviour materially changed. The survey's own f42f579c row already",
+      "documented the divergence \u2014 chained AGENTS.md, a second merged cap and a",
+      "window-derived limit there, versus cwd-only, one cap and a constant 20,000 here."
+    ]
+  },
+  "current_target": {
+    "upstream": "https://github.com/NousResearch/hermes-agent",
+    "tag": "v2026.9.24",
+    "tag_object_sha": "e3dd27ee2d8b011737a4eea8e3eb3d711ab78690",
+    "tag_object_type": "tag",
+    "resolved_from": "git ls-remote --tags --refs origin, and the GitHub refs API",
+    "resolved_at": "2026-10-02",
+    "selection_basis": [
+      "The newest published release tag at the time of pinning, which is the only",
+      "defensible reading of `the version ConstraintFlow intends to support` without",
+      "a product decision to the contrary.",
+      "Contemporaneous with the pinned OpenClaw target v2026.9.1 (2026-09-03), so the",
+      "two adapters describe harnesses of the same era rather than four months apart."
+    ],
+    "status": "PINNED, NOT QUALIFIED \u2014 no checkout, no replay, no audit yet",
+    "blocking": [
+      "No checkout of this tag exists on this host, so A1's bar (the real loading code",
+      "has been executed) is not met for it. Nothing about it may be claimed.",
+      "Ruling item 7's eleven-area run-path derivation is outstanding.",
+      "Ruling item 5's final-prompt tracing is outstanding for both harnesses."
+    ],
+    "do_not": [
+      "Do not infer this target's behaviour from the legacy profile.",
+      "Do not reuse H1-H3.",
+      "Do not resolve `latest` at run time; this file is the pin."
+    ],
+    "commit": "f97608f178d1ffeca59860195ab7da295f7c8e5f",
+    "commit_date": "2026-09-24T03:08:47-07:00",
+    "subject": "chore: release v0.21.5 (2026.9.24)",
+    "tracked_files_regular": 15075,
+    "tracked_symlinks": 0,
+    "manifests_delivered_2026_10_03": {
+      "sha256_manifest": "a3d5c5588bb552c585da93b08685924746a4156c427a092994945eaba08877e7",
+      "git_tree_manifest": "d14f233e1cb807c20d2f90d77d041c64b465fbfc774dc9f87506082078bc868c",
+      "hook_and_loader_subset_archive": "f93641151a00d68449124223b2ca5e97d8de929eb2431ae40b394d4b1963b165",
+      "verified_on_this_host": "both manifests recomputed and match their declared digests",
+      "note": "the subset archive itself was not delivered to this host; only the two manifests were, so the tree cannot yet be verified file by file as the OpenClaw tree was"
+    },
+    "legacy_comparison": {
+      "legacy_tracked_files": 4086,
+      "note": "15,075 regular files against the legacy pin's 4,086. The survey's f42f579c (2026-09-30) is LATER than this tag, which is a third distinct Hermes surface and not covered by either row here."
+    }
+  }
+}

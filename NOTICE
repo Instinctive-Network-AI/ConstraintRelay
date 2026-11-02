@@ -1,0 +1,101 @@
+ConstraintRelay
+Copyright 2026 Instinctive Network
+
+This product includes software developed by Instinctive Network.
+
+Licensed under the Apache License, Version 2.0 (the "License"); see the LICENSE
+file in this directory. The LICENSE file is the canonical, unmodified Apache
+License 2.0 text (md5 3b83ef96387f14655fc854ddc3c6bd57).
+
+
+-------------------------------------------------------------------------------
+Third-party attributions
+-------------------------------------------------------------------------------
+
+ConstraintRelay vendors no third-party source. It does, however, contain Python
+*ports* of algorithms read from the agent harnesses it was measured against —
+re-implementations written to predict those harnesses' behaviour without
+shelling out to them. A port of a function is derived work, so each upstream is
+named here.
+
+VERIFIED — licence text read from the checkout used
+
+  HKUDS/Vibe-Trading — MIT License, Copyright (c) 2026 Vibe-Trading Contributors
+      cf/vibe_trading_paged.py
+          Ports the paged skill loader at commit 9a27a6e:
+          agent/src/tools/load_skill_tool.py, agent/src/config/limits.py,
+          agent/src/agent/skills.py.
+      cf/deliver.py
+          Uses that port, and the harness's TOOL_RESULT_LIMIT constant.
+
+  openclaw/openclaw — MIT License (package.json, v2026.9.1)
+      cf/openclaw.py
+          Python port of the workspace bootstrap loader's algorithm.
+
+  NousResearch/hermes-agent — MIT License, Copyright (c) 2025 Nous Research
+      Read from the checkout at ~/.hermes/hermes-agent, which is at commit
+      2517917de — the exact commit cf/profiles.py was derived from. Its LICENSE
+      is byte-identical (md5 1864e6648a4c302b984b2efd215c7918) to the upstream
+      blob 75410e73319c72cd3e991a501c5455eb78f38375 at that commit.
+      Until 2026-10-04 this entry sat in the unverified section saying no
+      checkout was available on this machine. That was wrong: the hermetic test
+      suite had been importing from that very checkout the whole time. An
+      attribution marked unverified for want of a file that was already on disk
+      is the cheapest kind of licence defect there is, and it survived because
+      nothing checked the claim.
+      cf/profiles.py — byte-exact port of `_strip_yaml_frontmatter`, and the
+      hermes context-loader layer model.
+
+VERIFIED — licence text read from the upstream repository at the pinned commit
+(GitHub contents API, 2026-10-04). Neither of these two is checked out on this
+machine, so the licence file was read at the exact commit each port was derived
+from and is identified below by its git blob sha. Both files belong to the
+PAUSED harness-qualification machinery and are not part of the v0.1 product
+surface (see LIMITATIONS.md).
+
+  Conway-Research/automaton — MIT License, Copyright (c) 2026 Conway
+      LICENSE @ d8f8168 (2026-08-26),
+      blob 10a0038c2eb08f9a91781be59fda8a8621bc8da8
+      cf/conway.py — port of the skill-instruction loader.
+
+  openai/codex — Apache License 2.0
+      LICENSE @ bcd6d9a, blob 4606e72e042564097e8780d66c1d4dcb611869bd
+      Same Apache-2.0 terms as this project's LICENSE; the two copies differ
+      only in line wrapping and in the appendix, which upstream fills in with
+      its own copyright line.
+      cf/codex.py, oracle/codex_agents_md_oracle.py — project-doc loader model.
+
+      Apache-2.0 is the one upstream licence here that imposes an ongoing
+      obligation on this distribution. Its section 4 requires that derivative
+      works retain the upstream copyright, patent, trademark and attribution
+      notices, and 4(d) requires carrying the attribution notices from the
+      upstream NOTICE file that pertain to the derived parts. The relevant
+      notice from openai/codex's NOTICE @ bcd6d9a (blob
+      2805899d56d0332d175cfc613c67d45d6f006db7) is reproduced verbatim:
+
+          OpenAI Codex
+          Copyright 2025 OpenAI
+
+      That NOTICE also attributes Ratatui (MIT, Copyright (c) 2016-2022
+      Florian Dehau, Copyright (c) 2023-2025 The Ratatui Developers) for
+      derived terminal-UI code. ConstraintRelay ports none of it — cf/codex.py
+      models only the project-doc loader — so under the 4(d) carve-out for
+      notices that do not pertain to any part of the derivative work, that
+      attribution is named here for traceability rather than claimed as a
+      dependency.
+
+
+-------------------------------------------------------------------------------
+Measured corpora
+-------------------------------------------------------------------------------
+
+The measurements in PHASE1.md-PHASE5.md were taken against HKUDS/Vibe-Trading
+(MIT) at commit dddf96e. That corpus is read from a checkout supplied at run
+time and is never copied into this repository; `fieldtest/*/` runners rsync it
+to a scratch directory and never write to the checkout they are given.
+
+No corpus text is redistributed here. The recorded evidence files under
+`fieldtest/` contain constraint text extracted from that MIT-licensed corpus for
+the purpose of reporting what was measured; `fieldtest/phase5/audit.tsv` and the
+inventory manifests quote short excerpts under the same MIT terms, with
+attribution above.

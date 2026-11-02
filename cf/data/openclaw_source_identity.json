@@ -1,0 +1,80 @@
+{
+  "harness": "openclaw",
+  "governing_instrument": "owner ruling 2026-10-02, OpenClaw source-pointer delivery, item 1",
+  "compatibility_identity": {
+    "upstream": "https://github.com/openclaw/openclaw",
+    "tag": "v2026.9.1",
+    "annotated_tag_object": "74be8c0d44623711fde78c70bc40f5a633dc4f56",
+    "commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+    "commit_date": "2026-09-03T07:58:58-07:00",
+    "sha256_manifest": "8006abac65a8100c7e6c7098ea1fa2903ba05a9ee834257829944e204b125b4e",
+    "git_tree_manifest": "d7cb9027d8d1fc1cf0b248243cce9a337113cc0b4ed0593d124eafe04481b844",
+    "installed_build_info_commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+    "installed_build_id": "2026.9.1-release-ad6fe23aecb9-2026-09-03T15-04-19.382Z"
+  },
+  "independent_sources_for_the_commit": [
+    "the delivered git-tree and sha256 manifests, generated from the tag",
+    "dist/build-info.json in the installed package, written by the build"
+  ],
+  "tree_verification": {
+    "manifest_lines": 36735,
+    "verified": 1812,
+    "absent": 34923,
+    "mismatched": 0,
+    "mismatched_examples": []
+  },
+  "loader_source_files": {
+    "src/agents/embedded-agent-helpers/bootstrap.ts": {
+      "sha256": "6f75cb8516ba6555c66855d22c3b1ba3857e16c3be0ee0df63bd220ac41594b9",
+      "in_manifest": "6f75cb8516ba6555c66855d22c3b1ba3857e16c3be0ee0df63bd220ac41594b9",
+      "agrees": true
+    },
+    "src/agents/workspace.ts": {
+      "sha256": "f0afa9b28761ce1194874c5b1d7cc6ca831517f2d56e4afca31782e53d440ede",
+      "in_manifest": "f0afa9b28761ce1194874c5b1d7cc6ca831517f2d56e4afca31782e53d440ede",
+      "agrees": true
+    }
+  },
+  "execution_surface": {
+    "note": "the 136 modules the loader resolves at run time. Owner ruling 2026-10-02 item 1 keeps these as `execution_surface` — what this delivery actually went through — and removes them as the sole fingerprint boundary, because resolution is a superset of use and a built bundle is not upstream source.",
+    "generated_by": "replays/openclaw/surface.mjs",
+    "module_count": 136,
+    "dist_file_count": 5639
+  },
+  "not_delivered": {
+    "full_source_archive": "114 MiB, over the upload limit. The two manifests cover the whole tree, so identity does not depend on it; the partial archive covers src/agents only."
+  },
+  "checks": [
+    {
+      "check": "sha256_manifest matches its declared sha256",
+      "passed": true,
+      "detail": "openclaw-v2026.9.1---4916c025-2e2b-4172-9ffa-affb205f0834.sha256 -> 8006abac65a8100c…"
+    },
+    {
+      "check": "git_tree_manifest matches its declared sha256",
+      "passed": true,
+      "detail": "openclaw-v2026.9.1.git-tree---b7d5002d-b098-4b38-a61c-e8baadfc7e23.txt -> d7cb9027d8d1fc1c…"
+    },
+    {
+      "check": "src_agents_archive matches its declared sha256",
+      "passed": true,
+      "detail": "openclaw-v2026.9.1-ad6fe23a-src-agents.tar---d3afc265-5a08-4c31-b031-aaa3b4fce062.gz -> d4a8cb9edfa0e69b…"
+    },
+    {
+      "check": "installed build-info commit matches the tag's commit",
+      "passed": true,
+      "detail": "2026.9.1 / ad6fe23aecb9…"
+    },
+    {
+      "check": "extracted source verifies against the whole-tree manifest",
+      "passed": true,
+      "detail": "1812 verified, 0 mismatched, 34923 absent (archive excludes *.test.ts and everything outside src/agents)"
+    },
+    {
+      "check": "the loader source files are in the manifest at these digests",
+      "passed": true,
+      "detail": "bootstrap.ts=6f75cb8516ba…, workspace.ts=f0afa9b28761…"
+    }
+  ],
+  "all_ok": true
+}

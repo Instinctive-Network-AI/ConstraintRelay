@@ -1,0 +1,218 @@
+{
+  "note": "The single canonical source for current fixture/corpus counts and gate evidence (qualification ruling items 1 and 5). Documentation and profiles/data/qualification.json reference these metrics; they do not restate them. cf.evidence.check_stale_numbers enforces that.",
+  "generated_by": "tools/gen_evidence.py",
+  "generated_at": "2026-10-02T07:51:46Z",
+  "implementation": "constraintflow/0.7+analyzer.2",
+  "metrics": {
+    "openclaw": {
+      "profile_fixtures": 14,
+      "profile_all_match": true,
+      "layers": 7,
+      "bundle_version": "2026.9.1",
+      "loader_surface_files": 136,
+      "dist_file_count": 5639,
+      "upstream_commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+      "source": {
+        "tag": "v2026.9.1",
+        "commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+        "sha256_manifest": "8006abac65a8100c7e6c7098ea1fa2903ba05a9ee834257829944e204b125b4e",
+        "git_tree_manifest": "d7cb9027d8d1fc1cf0b248243cce9a337113cc0b4ed0593d124eafe04481b844",
+        "build_info_commit": "ad6fe23aecb9b833d68139b0ddc9f239b894d2f1",
+        "all_checks_pass": true,
+        "files_verified": 1812,
+        "files_mismatched": 0
+      },
+      "loader_steps": {
+        "total": 10,
+        "cases": 24,
+        "with_fixture": 10,
+        "mutations_caught": 10,
+        "spans_traced": 87,
+        "all_ok": true
+      },
+      "holdout": {
+        "tranches_run": [
+          "OC1",
+          "OC2"
+        ],
+        "qualifying_tranche": "OC2",
+        "frozen_pairs": 30,
+        "evaluated_pairs": 30,
+        "definite_verdicts": 2307,
+        "false_definite": 0,
+        "run_after": [
+          "CF-016",
+          "CF-018",
+          "CF-019",
+          "CF-020"
+        ]
+      }
+    },
+    "hermes": {
+      "scan_model": {
+        "crafted_inputs": 20,
+        "corpus_files": 0,
+        "disagreements": 0
+      },
+      "layers": 22,
+      "commit": "2517917de34eeb6a40f5a17a2e59d9746803dfa5",
+      "scanner": {
+        "rules_total": 45,
+        "rules_regex": 28,
+        "rules_invisible": 17,
+        "rules_with_positive_and_near_miss": 45,
+        "crafted_expected_vs_real": {
+          "tp": 45,
+          "fn": 0,
+          "tn": 45,
+          "fp": 0
+        },
+        "crafted_model_vs_real": {
+          "both_reject": 45,
+          "both_allow": 45,
+          "model_rejects_real_allows": 0,
+          "model_allows_real_rejects": 0
+        },
+        "corpus_model_vs_real": {
+          "both_reject": 0,
+          "both_allow": 67,
+          "model_rejects_real_allows": 0,
+          "model_allows_real_rejects": 0
+        },
+        "corpus_files": 67,
+        "capsule_trips_scanner_ok": true,
+        "loader_cases_all_ok": true,
+        "all_pass": true
+      }
+    },
+    "layer_coverage": {
+      "can_fail": 14,
+      "with_reason": 15,
+      "uncovered": 0
+    },
+    "holdout": {
+      "tranches_run": [
+        "H1",
+        "H2",
+        "H3"
+      ],
+      "qualifying_tranche": "H3",
+      "tranche": "H3",
+      "tranche_count": 3,
+      "frozen_pairs": 30,
+      "evaluated_pairs": 22,
+      "definite_verdicts": 1576,
+      "false_definite": 0,
+      "run_after": [
+        "CF-011",
+        "CF-012"
+      ]
+    },
+    "slice": {
+      "cases": 36,
+      "by_requirement": {
+        "applicability": {
+          "cases": 2,
+          "all_ok": true
+        },
+        "unknown-dimension-is-applicable": {
+          "cases": 1,
+          "all_ok": true
+        },
+        "capsule-construction": {
+          "cases": 6,
+          "all_ok": true
+        },
+        "real-loader-delivery": {
+          "cases": 3,
+          "all_ok": true
+        },
+        "qualification-gating": {
+          "cases": 6,
+          "all_ok": true
+        },
+        "capsule-insertion-non-regression": {
+          "cases": 3,
+          "all_ok": true
+        },
+        "conditional-indeterminate": {
+          "cases": 1,
+          "all_ok": true
+        },
+        "target-removal-weakening": {
+          "cases": 2,
+          "all_ok": true
+        },
+        "fail-closed-disruption": {
+          "cases": 9,
+          "all_ok": true
+        },
+        "provenance-and-fingerprint": {
+          "cases": 3,
+          "all_ok": true
+        }
+      }
+    }
+  },
+  "sources": {
+    "openclaw.profile_fixtures": "tests/test_openclaw_profile.py (executed)",
+    "openclaw.profile_all_match": "tests/test_openclaw_profile.py (executed)",
+    "hermes.scan_model.crafted_inputs": "tests/test_hermes_scan.py (executed)",
+    "hermes.scan_model.corpus_files": "tests/test_hermes_scan.py (executed)",
+    "hermes.scan_model.disagreements": "tests/test_hermes_scan.py (executed)",
+    "hermes.layers": "profiles/data/hermes_layers.json",
+    "hermes.commit": "profiles/data/hermes_layers.json",
+    "openclaw.layers": "profiles/data/openclaw_layers.json",
+    "openclaw.bundle_version": "profiles/data/openclaw_layers.json",
+    "openclaw.loader_surface_files": "profiles/data/openclaw_surface.json",
+    "openclaw.dist_file_count": "profiles/data/openclaw_surface.json",
+    "openclaw.upstream_commit": "profiles/data/openclaw_surface.json",
+    "openclaw.source.tag": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.commit": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.sha256_manifest": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.git_tree_manifest": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.build_info_commit": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.all_checks_pass": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.files_verified": "profiles/data/openclaw_source_identity.json",
+    "openclaw.source.files_mismatched": "profiles/data/openclaw_source_identity.json",
+    "openclaw.loader_steps.total": "profiles/data/openclaw_loader_steps.json",
+    "openclaw.loader_steps.cases": "profiles/data/openclaw_loader_steps.json",
+    "openclaw.loader_steps.with_fixture": "profiles/data/openclaw_loader_steps.json",
+    "openclaw.loader_steps.mutations_caught": "profiles/data/openclaw_loader_steps.json",
+    "openclaw.loader_steps.spans_traced": "profiles/data/openclaw_loader_steps.json",
+    "openclaw.loader_steps.all_ok": "profiles/data/openclaw_loader_steps.json",
+    "layer_coverage.can_fail": "profiles/data/layer_coverage.json",
+    "layer_coverage.with_reason": "profiles/data/layer_coverage.json",
+    "layer_coverage.uncovered": "profiles/data/layer_coverage.json",
+    "hermes.scanner.rules_total": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.rules_regex": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.rules_invisible": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.rules_with_positive_and_near_miss": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.crafted_expected_vs_real": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.crafted_model_vs_real": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.corpus_model_vs_real": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.corpus_files": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.capsule_trips_scanner_ok": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.loader_cases_all_ok": "profiles/data/hermes_scanner.json",
+    "hermes.scanner.all_pass": "profiles/data/hermes_scanner.json",
+    "holdout.tranches_run": "fieldtest/holdout_h*.json",
+    "holdout.qualifying_tranche": "fieldtest/holdout_h3.json",
+    "holdout.tranche": "fieldtest/holdout_h3.json",
+    "holdout.tranche_count": "fieldtest/holdout_h3.json",
+    "holdout.frozen_pairs": "fieldtest/holdout_h3.json",
+    "holdout.evaluated_pairs": "fieldtest/holdout_h3.json",
+    "holdout.definite_verdicts": "fieldtest/holdout_h3.json",
+    "holdout.false_definite": "fieldtest/holdout_h3.json",
+    "holdout.run_after": "fieldtest/holdout_h3.json",
+    "openclaw.holdout.tranches_run": "fieldtest/holdout_openclaw_*.json",
+    "openclaw.holdout.qualifying_tranche": "fieldtest/holdout_openclaw_oc2.json",
+    "openclaw.holdout.frozen_pairs": "fieldtest/holdout_openclaw_oc2.json",
+    "openclaw.holdout.evaluated_pairs": "fieldtest/holdout_openclaw_oc2.json",
+    "openclaw.holdout.definite_verdicts": "fieldtest/holdout_openclaw_oc2.json",
+    "openclaw.holdout.false_definite": "fieldtest/holdout_openclaw_oc2.json",
+    "openclaw.holdout.run_after": "fieldtest/holdout_openclaw_oc2.json",
+    "slice.cases": "profiles/data/slice_coverage.json",
+    "slice.by_requirement": "profiles/data/slice_coverage.json"
+  },
+  "missing": []
+}
