@@ -65,7 +65,7 @@ listed separately in `SUPPORTED_HOSTS` or not at all.
 - A request with no tools offered is **not** a decision-input boundary; its
   receipt degrades honestly rather than claiming more.
 
-### S2 — The five-minute path (`constraintflow` top-level package) **[1.0 blocking]**
+### S2 — The five-minute path (`constraintrelay` top-level package) **[1.0 blocking]**
 
 Target: parity with Guardrails AI's 7-line quickstart.
 
@@ -158,7 +158,7 @@ what stands behind it.
 | | | | |
 |---|---|---|---|
 | S1 | provider-SDK host | **implemented + gated**, sync and async | `cf/host_openai.py`; 75/75 + 19/19 mutations, 73/73 against the real `openai` package, zero provider calls |
-| S2 | five-minute path | **implemented + gated** | `constraintflow/__init__.py`; run on the installed wheel by `v2/install_verify.py` |
+| S2 | five-minute path | **implemented + gated** | `constraintrelay/__init__.py`; run on the installed wheel by `v2/install_verify.py` |
 | S3 | receipt reader | **implemented + gated** | `cf/cli_receipts.py`; four states, counted not scored, gaps included |
 | S4 | day-0 value | **CLOSED** by review 2026-10-24 (✅ 10/10) | `cf/propose.py` + `container propose`; an unmarked repo goes from `entries: 0` to a library `container check` passes, through one reviewable edit. 24/24 + 5/5 mutations; the README's own commands are executed on the source tree **and on the installed wheel**. It took five review rounds: the first four found the day-0 code sound and the checking around it unsound — a substituted command, a false-green exit code, a red artifact committed, a coverage list that missed the product package, and a count I reported over the wrong set |
 | S5 | docs split | **implemented + gated** | README leads with the path; every caveat kept and reachable |

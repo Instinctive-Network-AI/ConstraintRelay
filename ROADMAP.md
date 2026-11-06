@@ -31,7 +31,8 @@ deferred list, with what each name is, is in `v2/naming_gate.py`'s
 `DEFERRED_NAMES`, and the gate asserts each is *still spelled the old way* —
 so sweeping one along fails rather than being discovered later. The open
 question the Owner still has to settle: the distribution `constraintrelay`
-currently ships a module called `constraintflow`.
+ships a single top-level package, `constraintrelay` — the `cf` and
+`constraintflow` modules were merged into it on 2026-11-02.
 
 **The historical record is not rewritten.** The phase reports, the defect
 ledger and the status log keep what they said, and the gate requires that they

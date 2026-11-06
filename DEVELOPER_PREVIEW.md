@@ -231,8 +231,8 @@ and a command split over a `\` continuation.
 **Not seen, and stated rather than implied:** a requirements or constraints
 file that names the distribution; a shell variable or heredoc holding the
 name; a VCS, URL or `--index-url` install; an instruction written in prose
-instead of in a fence; and any file that is not tracked markdown under
-`constraintflow/`.
+instead of in a fence; and any file that is not tracked markdown at the
+top of the source tree.
 
 **Ruled on 2026-10-25 and implemented** (detail in
 [`ROADMAP.md`](ROADMAP.md)): `host_system_message_unchanged` is now
@@ -299,7 +299,8 @@ import name too" fails the gate:
 (`constraintflow/0.7+analyzer.2`, recorded inside every receipt) ·
 `.constraintrelay/` (the state directory holding `receipts.jsonl`) ·
 `.constraintrelay.toml` · `constraintrelay-declarations`,
-`constraintrelay-constraints` and `constraintflow-active` (markers that travel
+`constraintrelay-constraints` and `constraintrelay-active-constraints`
+(markers that travel
 **inside the model request** and are compared byte-for-byte) ·
 `_constraintrelay_guard` · `constraintrelay_commit` (a receipt field).
 
