@@ -192,7 +192,7 @@ def plan(source_root, skill_ids: list, *, skills_dir: str = "skills") -> dict:
             "tier": c.tier,
             "extraction_reason": c.extraction_reason,
             "text": c.source_text.strip(),
-            "marker": f"{indent}<!-- constraintflow: {MARKER_KIND} "
+            "marker": f"{indent}<!-- constraintrelay: {MARKER_KIND} "
                       f"id={cid} -->",
         })
 

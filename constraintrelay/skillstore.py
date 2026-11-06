@@ -1,6 +1,6 @@
 """Phase 1 layer C — the canonical Constraint Store, keyed by skill.
 
-    .constraintflow/skills.toml
+    .constraintrelay/skills.toml
 
 Why a second store file
 -----------------------
@@ -52,7 +52,7 @@ import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
-STORE_DIR = ".constraintflow"
+STORE_DIR = ".constraintrelay"
 STORE_NAME = "skills.toml"
 SUPPORTED_VERSION = 1
 

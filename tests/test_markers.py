@@ -31,7 +31,7 @@ def check(name: str, ok: bool, detail: str = "") -> None:
 SINGLE = """\
 # Team instructions
 
-<!-- constraintflow: critical id=FIN-003 -->
+<!-- constraintrelay: critical id=FIN-003 -->
 Research outputs must not be used directly as live-production actions.
 
 Some other paragraph.
@@ -49,7 +49,7 @@ if cs:
                               "live-production actions.",
           repr(c.canonical_text))
     check("single-block: marker is not part of the text",
-          "constraintflow" not in c.canonical_text)
+          "constraintrelay" not in c.canonical_text)
     check("single-block: cites the authored line", c.line == 4, str(c.line))
     check("single-block: tracked", c.tracked)
     check("single-block: does not swallow the following paragraph",
@@ -57,13 +57,13 @@ if cs:
 
 # The marker sits directly above the prose with no blank line — §3's own
 # example layout. Without masking, segmentation glues them into one paragraph.
-GLUED = ("<!-- constraintflow: critical id=A -->\n"
+GLUED = ("<!-- constraintrelay: critical id=A -->\n"
          "Line one of the clause.\n"
          "Line two of the same clause.\n")
 cs, issues = scan_file("A.md", GLUED)
 check("glued marker: no issues", not issues, "; ".join(str(i) for i in issues))
 check("glued marker: marker excluded from canonical text",
-      bool(cs) and "constraintflow" not in cs[0].canonical_text)
+      bool(cs) and "constraintrelay" not in cs[0].canonical_text)
 check("glued marker: both prose lines covered",
       bool(cs) and cs[0].canonical_text.count("\n") == 1,
       repr(cs[0].canonical_text) if cs else "")
@@ -72,7 +72,7 @@ check("glued marker: both prose lines covered",
 # --- §3 multi-block form ----------------------------------------------------
 
 RANGE = """\
-<!-- constraintflow: critical id=FIN-003 -->
+<!-- constraintrelay: critical id=FIN-003 -->
 
 First paragraph.
 
@@ -80,7 +80,7 @@ Second paragraph.
 
 - Additional requirement.
 
-<!-- constraintflow: end id=FIN-003 -->
+<!-- constraintrelay: end id=FIN-003 -->
 
 Outside the range.
 """
@@ -101,17 +101,17 @@ if cs:
 
 cases = [
     ("unmatched end", "UNMATCHED_END",
-     "Prose.\n\n<!-- constraintflow: end id=X -->\n"),
+     "Prose.\n\n<!-- constraintrelay: end id=X -->\n"),
     ("id mismatch", "ID_MISMATCH",
-     "<!-- constraintflow: critical id=X -->\n\nProse.\n\n"
-     "<!-- constraintflow: end id=Y -->\n"),
+     "<!-- constraintrelay: critical id=X -->\n\nProse.\n\n"
+     "<!-- constraintrelay: end id=Y -->\n"),
     ("nested range", "NESTED_RANGE",
-     "<!-- constraintflow: critical id=X -->\n\nA.\n\n"
-     "<!-- constraintflow: critical id=Y -->\n\nB.\n\n"
-     "<!-- constraintflow: end id=Y -->\n\n"
-     "<!-- constraintflow: end id=X -->\n"),
+     "<!-- constraintrelay: critical id=X -->\n\nA.\n\n"
+     "<!-- constraintrelay: critical id=Y -->\n\nB.\n\n"
+     "<!-- constraintrelay: end id=Y -->\n\n"
+     "<!-- constraintrelay: end id=X -->\n"),
     ("marker with nothing after it", "NO_COVERED_BLOCK",
-     "Prose.\n\n<!-- constraintflow: critical id=X -->\n"),
+     "Prose.\n\n<!-- constraintrelay: critical id=X -->\n"),
 ]
 for name, code, src in cases:
     # `end_ids` has to be project-wide for the range forms to be recognised.
@@ -120,8 +120,8 @@ for name, code, src in cases:
     check(f"error: {name} -> {code}", code in got, f"got {sorted(got) or 'none'}")
 
 # An unclosed explicit range must not quietly become a single-block constraint.
-UNCLOSED_A = "<!-- constraintflow: critical id=X -->\n\nFirst.\n\nSecond.\n"
-STRAY_B = "Other file.\n\n<!-- constraintflow: end id=X -->\n"
+UNCLOSED_A = "<!-- constraintrelay: critical id=X -->\n\nFirst.\n\nSecond.\n"
+STRAY_B = "Other file.\n\n<!-- constraintrelay: end id=X -->\n"
 scan = scan_project([("a.md", UNCLOSED_A), ("b.md", STRAY_B)])
 codes = {i.code for i in scan.issues}
 check("unclosed range reported from both ends",
@@ -130,8 +130,8 @@ check("unclosed range yields no constraint", not scan.constraints,
       f"{len(scan.constraints)} constraints")
 
 # Duplicate ids, §3.
-DUP_A = "<!-- constraintflow: critical id=FIN-003 -->\nA clause.\n"
-DUP_B = "<!-- constraintflow: critical id=FIN-003 -->\nAnother clause.\n"
+DUP_A = "<!-- constraintrelay: critical id=FIN-003 -->\nA clause.\n"
+DUP_B = "<!-- constraintrelay: critical id=FIN-003 -->\nAnother clause.\n"
 scan = scan_project([("a.md", DUP_A), ("b.md", DUP_B)])
 check("duplicate id is a configuration error",
       any(i.code == "DUPLICATE_ID" for i in scan.issues),
@@ -142,7 +142,7 @@ check("duplicate id reported against the second site, naming the first",
 
 # --- §3 legacy markers are UNTRACKED ---------------------------------------
 
-LEGACY = "<!-- constraintflow: critical -->\nA clause with no id.\n"
+LEGACY = "<!-- constraintrelay: critical -->\nA clause with no id.\n"
 scan = scan_project([("a.md", LEGACY)])
 check("legacy marker is accepted", len(scan.constraints) == 1 and scan.ok,
       f"{len(scan.constraints)} / {[str(i) for i in scan.issues]}")
@@ -156,9 +156,9 @@ check("legacy markers never collide as duplicates",
 
 # --- §3 identity is the id, never the text ---------------------------------
 
-V1 = "<!-- constraintflow: critical id=FIN-003 -->\nNo live-production use.\n"
-V2 = "<!-- constraintflow: critical id=FIN-003 -->\nNo live-production use, ever.\n"
-V3 = "<!-- constraintflow: critical id=FIN-004 -->\nNo live-production use.\n"
+V1 = "<!-- constraintrelay: critical id=FIN-003 -->\nNo live-production use.\n"
+V2 = "<!-- constraintrelay: critical id=FIN-003 -->\nNo live-production use, ever.\n"
+V3 = "<!-- constraintrelay: critical id=FIN-004 -->\nNo live-production use.\n"
 a = scan_project([("f.md", V1)]).tracked["FIN-003"]
 b = scan_project([("f.md", V2)]).tracked["FIN-003"]
 c = scan_project([("f.md", V3)]).tracked["FIN-004"]
@@ -169,10 +169,10 @@ check("identical text under a new id is a different constraint",
 
 # Canonical text must be insensitive to blank-line reflow and trailing space,
 # and sensitive to everything else.
-R1 = ("<!-- constraintflow: critical id=X -->\n\nA.\n\nB.\n\n"
-      "<!-- constraintflow: end id=X -->\n")
-R2 = ("<!-- constraintflow: critical id=X -->\n\n\nA.   \n\n\n\nB.\n\n"
-      "<!-- constraintflow: end id=X -->\n")
+R1 = ("<!-- constraintrelay: critical id=X -->\n\nA.\n\nB.\n\n"
+      "<!-- constraintrelay: end id=X -->\n")
+R2 = ("<!-- constraintrelay: critical id=X -->\n\n\nA.   \n\n\n\nB.\n\n"
+      "<!-- constraintrelay: end id=X -->\n")
 check("canonical text ignores blank-line reflow and trailing space",
       scan_project([("f.md", R1)]).tracked["X"].canonical_sha256
       == scan_project([("f.md", R2)]).tracked["X"].canonical_sha256)
@@ -180,17 +180,17 @@ check("canonical text ignores blank-line reflow and trailing space",
 
 # --- marker recognition is strict ------------------------------------------
 
-NOT_A_MARKER = ("Text <!-- constraintflow: critical id=X --> more text.\n\n"
+NOT_A_MARKER = ("Text <!-- constraintrelay: critical id=X --> more text.\n\n"
                 "A clause.\n")
 scan = scan_project([("f.md", NOT_A_MARKER)])
 check("an inline marker is not recognised as a marker",
       not scan.constraints and scan.ok,
       f"{len(scan.constraints)} constraints")
 
-QUOTED = '<!-- constraintflow: critical id="FIN-003" -->\nA clause.\n'
+QUOTED = '<!-- constraintrelay: critical id="FIN-003" -->\nA clause.\n'
 check("quoted id parses", "FIN-003" in scan_project([("f.md", QUOTED)]).tracked)
 
-SPACED = "<!--  constraintflow : critical  id = FIN-003  -->\nA clause.\n"
+SPACED = "<!--  constraintrelay : critical  id = FIN-003  -->\nA clause.\n"
 check("whitespace-tolerant marker parses",
       "FIN-003" in scan_project([("f.md", SPACED)]).tracked)
 

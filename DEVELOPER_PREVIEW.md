@@ -59,10 +59,11 @@ drift. In outline:
 4. install the guard on your client and open `guard.active(...)`;
 5. `constraintrelay receipts` to read the ledger back.
 
-Install verification: **42/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
+Install verification: **41/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
 from a clean clone, installed into a fresh venv, with the repository's own
 `cf/` **moved aside** so a source import cannot pass for an install. Every
 command the README prints is run against the installed console script.
+The one red since 2026-11-06 is the hermes example: `backtest-sanity-check` is deliberately PENDING_CONFIRMATION for its re-anchor (Owner ruling 2026-11-05 item 3) and a pending manifest delivers nothing, so the example cannot complete until the project lead confirms. It is not a defect in the host integration.
 
 ## 3. Verified hosts, and the exact client path
 
@@ -296,11 +297,11 @@ import name too" fails the gate:
 
 `import constraintrelay` · `import constraintrelay` · `constraintrelay.version.IMPLEMENTATION`
 (`constraintflow/0.7+analyzer.2`, recorded inside every receipt) ·
-`.constraintflow/` (the state directory holding `receipts.jsonl`) ·
-`.constraintflow.toml` · `constraintflow-declarations`,
-`constraintflow-constraints` and `constraintflow-active` (markers that travel
+`.constraintrelay/` (the state directory holding `receipts.jsonl`) ·
+`.constraintrelay.toml` · `constraintrelay-declarations`,
+`constraintrelay-constraints` and `constraintflow-active` (markers that travel
 **inside the model request** and are compared byte-for-byte) ·
-`_constraintflow_guard` · `constraintflow_commit` (a receipt field).
+`_constraintrelay_guard` · `constraintrelay_commit` (a receipt field).
 
 Each is either evidence already written down, state already on disk, or bytes
 a receipt compares. The distribution `constraintrelay` therefore still ships a

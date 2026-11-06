@@ -67,7 +67,7 @@ Mark a declaration in your own skill document — an HTML comment, no new
 language to learn:
 
 ```markdown
-<!-- constraintflow: critical id=DS-R1 -->
+<!-- constraintrelay: critical id=DS-R1 -->
 The report must state its data cut-off date.
 ```
 
@@ -85,7 +85,7 @@ works: extraction is heuristic, about two real constraints in three are never
 proposed, and **absence from that list is not evidence a rule does not
 exist**.
 
-Only `critical` is an author marker. `<!-- constraintflow: operative … -->`
+Only `critical` is an author marker. `<!-- constraintrelay: operative … -->`
 is **not** one — `operative` is a *tier* from the legacy route below — and a
 marker the build does not recognise is counted as
 `candidates_skipped_not_author_marked` rather than built.
@@ -99,7 +99,7 @@ constraintrelay container attest --source . --skill skills/my-skill --library li
 
 **`attest` writes a DRAFT, and a draft delivers nothing.** Adopting it is a
 third step, and it is yours: open
-`skills/my-skill/.constraintflow-attestation.json` and fill in
+`skills/my-skill/.constraintrelay-attestation.json` and fill in
 
 ```json
 "confirmation_method": "written_reply",
@@ -154,7 +154,7 @@ constraintrelay receipts
 ```
 
 ```
-.constraintflow/receipts.jsonl  —  3 request(s) recorded, host: openai-python
+.constraintrelay/receipts.jsonl  —  3 request(s) recorded, host: openai-python
 
   #1    delivered     demo-skill
   #2    none due      —

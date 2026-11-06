@@ -3,7 +3,7 @@
 v1 has **no central constraint registry**. Critical constraints stay in the
 author's own instruction files and are identified by an explicit marker:
 
-    <!-- constraintflow: critical id=FIN-003 -->
+    <!-- constraintrelay: critical id=FIN-003 -->
 
 Identity is the `id`, never the text. §3's consequences, which this module
 implements literally:
@@ -21,7 +21,7 @@ Forms
 *Single block.* With no end marker the start applies to the **next syntactic
 block** under the frozen block semantics in `blocks.py`.
 
-*Range.* `<!-- constraintflow: end id=FIN-003 -->` closes an explicit range
+*Range.* `<!-- constraintrelay: end id=FIN-003 -->` closes an explicit range
 covering every block in between.
 
 Distinguishing the two

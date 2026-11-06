@@ -287,7 +287,7 @@ building.
 | 0 | this snapshot + this proposal | **done** |
 | 1 | pre-conditions: assert the B5 superseded-body writer; decide **not** to reuse `phase15/call_ledger.py` (closes CF-026 / B1–B3 by scope); obtain the `STRATUM_A` ∩ Phase 9 disjointness assertion | nothing paid runs before this |
 | 2 | library schema: skill-level `source_version` + per-file `content_sha256`; `exception`; `policy_origin`. Additive, 3 field groups | `test_phase1_store` + `test_v01_surface` must stay green; re-examine `stash@{0}` first |
-| 3 | build the library for the 3 skills: 8 calls → union → review cards → confirm → `.constraintflow/skills.toml` with hashes and build-run id | needs its own call authorisation |
+| 3 | build the library for the 3 skills: 8 calls → union → review cards → confirm → `.constraintrelay/skills.toml` with hashes and build-run id | needs its own call authorisation |
 | 4 | runtime: task-constraint recorder (new) + matcher over `applicability.py`/`query.py` + delivery wrap at `loop.py:1063` modelled on `cf/lifetime.py`'s discipline | observe the real request, never predict it |
 | 5 | coverage vocabulary: `NOT_IN_LIBRARY` / `VERSION_MISMATCH` / `COVERAGE_INSUFFICIENT`, on the CF-024 pattern. No auto-build | silence is a bug, not a result |
 | 6 | run S1–S5, record outcomes and failures verbatim | integration acceptance only |

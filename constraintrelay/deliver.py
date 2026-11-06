@@ -68,8 +68,8 @@ PORTED = "ported"
 #: `loop.py:53` at both surveyed commits.
 TOOL_RESULT_LIMIT = 10_000
 
-CAPSULE_OPEN = '<constraintflow-constraints skill="{name}" count="{n}">'
-CAPSULE_CLOSE = "</constraintflow-constraints>"
+CAPSULE_OPEN = '<constraintrelay-constraints skill="{name}" count="{n}">'
+CAPSULE_CLOSE = "</constraintrelay-constraints>"
 
 
 @dataclass
@@ -169,7 +169,7 @@ def prove(project_root: Path, skill_token: str, *,
           prefer_harness: bool = True) -> DeliveryProof:
     """Run the demo for one skill and return what was observed.
 
-    *project_root* is the repository holding `.constraintflow/skills.toml`.
+    *project_root* is the repository holding `.constraintrelay/skills.toml`.
     *harness_root* defaults to *project_root*, which is the normal case: the
     Vibe-Trading checkout is both the source of the skills and the harness.
     """

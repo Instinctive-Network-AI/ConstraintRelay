@@ -89,7 +89,7 @@ BODY_STATES = (BODY_COMPLETE, BODY_TRUNCATED, BODY_DROPPED, BODY_ABSENT)
 
 #: Trim notice, placed inside `content` so it is model-visible. `{n}` is the
 #: number of characters of the skill document that were not delivered.
-TRIM_NOTICE = ("\n[constraintflow: {n:,} characters of this skill document were "
+TRIM_NOTICE = ("\n[constraintrelay: {n:,} characters of this skill document were "
                "not delivered, so that {k} recorded constraint(s) could be "
                "delivered whole. The omitted text is the tail of the document.]")
 

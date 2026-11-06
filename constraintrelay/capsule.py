@@ -39,13 +39,13 @@ from .store import StoredConstraint, Store
 #: Managed-region delimiters. The digest is in the begin marker so that drift is
 #: detectable from the file alone, without re-reading the store — which is what
 #: makes a mirror check cheap enough to run in a pre-commit hook.
-BEGIN = "<!-- constraintflow:capsule begin v=1 digest={digest} -->"
-END = "<!-- constraintflow:capsule end -->"
+BEGIN = "<!-- constraintrelay:capsule begin v=1 digest={digest} -->"
+END = "<!-- constraintrelay:capsule end -->"
 
 _BEGIN_RE = re.compile(
-    r"^<!--[ \t]*constraintflow:capsule[ \t]+begin[ \t]+v=1[ \t]+"
+    r"^<!--[ \t]*constraintrelay:capsule[ \t]+begin[ \t]+v=1[ \t]+"
     r"digest=(?P<digest>[0-9a-f]{64})[ \t]*-->[ \t]*$", re.MULTILINE)
-_END_RE = re.compile(r"^<!--[ \t]*constraintflow:capsule[ \t]+end[ \t]*-->[ \t]*$",
+_END_RE = re.compile(r"^<!--[ \t]*constraintrelay:capsule[ \t]+end[ \t]*-->[ \t]*$",
                      re.MULTILINE)
 
 HEADING = "## Constraints (ConstraintRelay capsule)"
@@ -164,7 +164,7 @@ def find_region(source: str) -> Region | None:
     if begin is None:
         if _END_RE.search(source) is not None:
             raise MirrorError(
-                "the file has a `constraintflow:capsule end` marker with no begin "
+                "the file has a `constraintrelay:capsule end` marker with no begin "
                 "marker; a half-open managed region cannot be verified or replaced")
         return None
     end = _END_RE.search(source, begin.end())

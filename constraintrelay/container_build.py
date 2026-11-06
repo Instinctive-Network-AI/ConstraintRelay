@@ -9,7 +9,7 @@ Author-marked rules only, so **zero provider calls**.
 
 Why author markers
 ------------------
-`<!-- constraintflow: critical id=... -->` is the one extraction tier that is
+`<!-- constraintrelay: critical id=... -->` is the one extraction tier that is
 not a heuristic — it is the author having already decided. It is
 deterministic, reproducible and needs no model. **It is also not
 representative of extraction recall**, and nothing this module produces bears
@@ -24,7 +24,7 @@ library, nor an author confirmation. Author confirmation is a separate
 artifact — see `cf/container_attest.py` and `cf/container.py`'s manifest.
 
 Selector and review annotations come from an optional per-skill sidecar,
-`.constraintflow-selectors.json`. Absent sidecar, or absent entry, means
+`.constraintrelay-selectors.json`. Absent sidecar, or absent entry, means
 **skill-wide**: a rule with no declared narrowing is broader than one with, so
 silence must not exclude it.
 """
@@ -41,7 +41,7 @@ from .library import (BuildRecord, DEVELOPER_REVIEWED, Library, LibraryEntry,
                       SkillBinding, SourceFileBinding, file_digest)
 
 AUTHOR_MARKER = "author_marker"
-SELECTOR_SIDECAR = ".constraintflow-selectors.json"
+SELECTOR_SIDECAR = ".constraintrelay-selectors.json"
 
 
 class BuildError(Exception):

@@ -1,14 +1,14 @@
 """The adapter registry.
 
 Moved out of `cli.py` at v0.6 because three things now need it without needing
-each other: `config` validates the `profile` named in `.constraintflow.toml`,
+each other: `config` validates the `profile` named in `.constraintrelay.toml`,
 `scenario` asks whether a profile's load set depends on the working directory,
 and `budget` needs the profile's **native unit** (§11).
 
 Two names per adapter, deliberately:
 
 * `profile_id` — `"<family>/<loader-profile>"`, the form §4 uses in
-  `.constraintflow.toml`. It names a *loader surface*, not a commit, because
+  `.constraintrelay.toml`. It names a *loader surface*, not a commit, because
   §8 makes the loader fingerprint the compatibility key rather than the commit.
 * `key` — the short CLI name, retained so existing invocations keep working.
 
@@ -254,7 +254,7 @@ def resolve(name: str) -> str:
     """Registry key for a short key or a §4 `family/profile` id.
 
     Raises `KeyError` with the accepted spellings listed, because a typo in
-    `.constraintflow.toml` is a configuration error (§9 exit 1) and the message
+    `.constraintrelay.toml` is a configuration error (§9 exit 1) and the message
     is the whole remedy.
     """
     if name in REGISTRY:

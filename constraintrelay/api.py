@@ -131,7 +131,7 @@ def scan(project_root: Path | str, *, skills_dir: str = "",
 
 
 def init(project_root: Path | str, *, skills_dir: str = "") -> dict:
-    """What is in this repository? Creates `.constraintflow/` and reports.
+    """What is in this repository? Creates `.constraintrelay/` and reports.
 
     Writes no constraint: extraction is heuristic, and confirmation is a
     separate, explicit act.

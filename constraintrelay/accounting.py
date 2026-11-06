@@ -148,8 +148,8 @@ def install(loop_module, llm_wrapper, *, attribute: str = "estimate_tokens",
     instrument instead of inferring the "before" gap from the "after" one.
     """
     original = getattr(loop_module, attribute)
-    if getattr(original, "_constraintflow_patch", None) is not None:
-        return original._constraintflow_patch           # already installed
+    if getattr(original, "_constraintrelay_patch", None) is not None:
+        return original._constraintrelay_patch           # already installed
 
     patch = AccountingPatch(module=loop_module, original=original,
                             attribute=attribute, observe_only=observe_only)
@@ -168,12 +168,12 @@ def install(loop_module, llm_wrapper, *, attribute: str = "estimate_tokens",
         patch.calls.append((base, value))
         return base if observe_only else value
 
-    corrected._constraintflow_patch = patch             # type: ignore[attr-defined]
-    corrected._constraintflow_original = original       # type: ignore[attr-defined]
+    corrected._constraintrelay_patch = patch             # type: ignore[attr-defined]
+    corrected._constraintrelay_original = original       # type: ignore[attr-defined]
     setattr(loop_module, attribute, corrected)
     return patch
 
 
 def is_installed(loop_module, *, attribute: str = "estimate_tokens") -> bool:
-    return getattr(getattr(loop_module, attribute), "_constraintflow_patch",
+    return getattr(getattr(loop_module, attribute), "_constraintrelay_patch",
                    None) is not None

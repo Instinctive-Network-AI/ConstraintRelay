@@ -123,7 +123,7 @@ class PreGenerationInjector:
     expected to survive compaction, so nothing has to.
     """
 
-    MARKER = "<!-- constraintflow:capsule -->"
+    MARKER = "<!-- constraintrelay:capsule -->"
 
     def __init__(self, *, render, selection_for, role: str = "system") -> None:
         self._render = render

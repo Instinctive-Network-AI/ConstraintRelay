@@ -27,7 +27,7 @@ _LIST_ITEM = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s+\S")
 #: A whole-line ConstraintFlow marker. A marker sharing a line with prose is not
 #: recognised, so it cannot silently mark the wrong extent.
 MARKER_LINE = re.compile(
-    r"^[ \t]*<!--[ \t]*constraintflow[ \t]*:[ \t]*"
+    r"^[ \t]*<!--[ \t]*constraintrelay[ \t]*:[ \t]*"
     r"(?P<kind>critical|end)\b(?P<attrs>[^>]*?)-->[ \t]*$"
 )
 

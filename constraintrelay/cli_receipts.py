@@ -3,7 +3,7 @@
 Why this command exists
 -----------------------
 `constraintrelay.host_openai` appends a receipt plus its ledger row to
-`.constraintflow/receipts.jsonl` on every observed request. Until this
+`.constraintrelay/receipts.jsonl` on every observed request. Until this
 command, nothing read them. A receipt nobody can look at is a compliance
 artefact for an auditor who never arrives.
 
@@ -28,7 +28,7 @@ from pathlib import Path
 from .request_ledger import (ATTRIBUTION_UNVERIFIED, DELIVERED_COMPLETE,
                              DUE_BUT_MISSING, NO_DECLARATION_DUE, STATUSES)
 
-DEFAULT_PATH = Path(".constraintflow") / "receipts.jsonl"
+DEFAULT_PATH = Path(".constraintrelay") / "receipts.jsonl"
 
 #: Exit codes match the rest of the CLI: 0 nothing needs a decision, 1 a tool
 #: or configuration error, 2 a reported finding.

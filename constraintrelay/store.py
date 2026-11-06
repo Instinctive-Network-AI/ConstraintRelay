@@ -15,7 +15,7 @@ second opinion.
 
 File
 ----
-`.constraintflow/store.toml`, TOML because `.constraintflow.toml` already is and
+`.constraintrelay/store.toml`, TOML because `.constraintrelay.toml` already is and
 `tomllib` is in the standard library.
 
     version = 1
@@ -53,7 +53,7 @@ from pathlib import Path
 
 from .applicability import Scope, ScopeError, parse_scope
 
-STORE_DIR = ".constraintflow"
+STORE_DIR = ".constraintrelay"
 STORE_NAME = "store.toml"
 SUPPORTED_VERSION = 1
 

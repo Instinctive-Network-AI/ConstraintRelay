@@ -54,7 +54,7 @@ would change what the product *is*, not add a feature to it.
 receipts that already exist. Every receipt already records the library
 `source_version` and `library_content_id` behind the request it describes, so
 *"which requests actually received which library version"* is derivable from
-`.constraintflow/receipts.jsonl` with no new telemetry, no agent reporting in,
+`.constraintrelay/receipts.jsonl` with no new telemetry, no agent reporting in,
 and no service to run. That answers a **narrower** question than Cerbos' —
 it is about requests that were made, not nodes that are alive — and the
 narrower question is the one this project can answer from evidence rather than

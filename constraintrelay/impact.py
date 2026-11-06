@@ -301,4 +301,4 @@ def materialize(repo: Path, rev: str, into: Path) -> Path:
 
 
 def revision_workspace() -> tempfile.TemporaryDirectory:
-    return tempfile.TemporaryDirectory(prefix="constraintflow-rev-")
+    return tempfile.TemporaryDirectory(prefix="constraintrelay-rev-")

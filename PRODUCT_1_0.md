@@ -88,7 +88,7 @@ which registry entry it came from.
 
 ### S3 — Receipts you can look at **[1.0 blocking]**
 
-Receipts append to `.constraintflow/receipts.jsonl`; `constraintrelay receipts`
+Receipts append to `.constraintrelay/receipts.jsonl`; `constraintrelay receipts`
 reads them back: per request, verified / failed / no-declaration-due /
 attribution-unverified, reusing `constraintrelay.request_ledger`'s four states. Counted,
 never scored.

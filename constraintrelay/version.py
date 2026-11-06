@@ -29,9 +29,28 @@ SEMANTIC_VERSION = "0.7"
 #: Bump on any change that can move a delivery verdict.
 #:   1  v0.6 engine as frozen at commit ed2abcb (post CF-001, CF-004, CF-005)
 #:   2  v0.7: store/capsule/receipt; no change to the per-block verdict path
-ANALYZER_VERSION = 2
+#:   3  2026-11-05 format rename: every author- and user-facing name moved to
+#:      the `constraintrelay` prefix — the declaration and capsule markers, the
+#:      payload markers, the state directory, the config file, the attestation
+#:      and selector sidecars, the receipt field names and the on-disk state
+#:      keys. The per-block verdict path is untouched, but the BYTES delivered
+#:      to the model and the bytes a receipt compares both changed, which is
+#:      exactly what this number exists to make visible.
+ANALYZER_VERSION = 3
 
-IMPLEMENTATION = f"constraintflow/{SEMANTIC_VERSION}+analyzer.{ANALYZER_VERSION}"
+#: The analyzer identity recorded inside every receipt and frozen artifact.
+#:
+#: Owner ruling 2026-11-05 item 3(J): *历史工件一律不改；新产生的回执使用
+#: constraintrelay 身份并带新版本号。这是版本变化，不是改写历史署名。*
+#:
+#: So this is a version change and NOT a retroactive re-signing. Artifacts
+#: already written keep `constraintflow/0.7+analyzer.2` as the identity of the
+#: analyzer that actually produced them; anything produced from here carries
+#: `constraintrelay/0.7+analyzer.3`. The two are deliberately distinguishable:
+#: a receipt that claimed the new identity for output the old analyzer made
+#: would be a forged signature, and `require_same` below would stop comparing
+#: like with like.
+IMPLEMENTATION = f"constraintrelay/{SEMANTIC_VERSION}+analyzer.{ANALYZER_VERSION}"
 
 
 class VersionMismatch(Exception):

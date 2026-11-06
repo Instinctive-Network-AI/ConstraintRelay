@@ -22,34 +22,43 @@ So the invocation strings are **derived** from `CLI` below, and
 future rename edits one constant and the gate tells you whether the packaging
 followed.
 
-What is deliberately NOT renamed here
--------------------------------------
-Owner ruling 2026-10-26 settled the separate question: the **import name is
-`cf`** for this preview and the public entry point is **`constraintrelay.attach`**. The
-product name is no longer a pending item. So the spellings below keep their
-current form by decision rather than by deferral — renaming them would
-invalidate receipts already written and state already on disk:
+The format names, renamed 2026-11-05
+------------------------------------
+There used to be a list here headed *what is deliberately NOT renamed*, and
+the reasoning was that these spellings are state on disk and bytes a receipt
+compares, so moving them would invalidate what already exists. That reasoning
+had the timing backwards, and the Owner's ruling of 2026-11-05 item 3 says so:
+these are the names an **author** writes into their own skill document and a
+**user** writes into their own project. Once published they are a format.
+Changing them *after* publication is a breaking change for somebody else's
+files; changing them *before* costs nothing, because there are no external
+users yet.
 
-* NOTHING in this list is an importable package any more. `cf` and
-  `constraintflow` were both renamed into `constraintrelay` on 2026-11-02
-  because they collided on install, and the Owner ruled out a compatibility
-  alias. What remains below is state, payload bytes and field names — none of
-  it is installed, so none of it can collide, which is where the rename
-  stopped;
-* `constraintrelay.version.IMPLEMENTATION` (`constraintflow/0.7+analyzer.2`), which is
-  recorded inside every receipt and every frozen artifact as the identity of
-  the analyzer that produced them;
-* `.constraintflow/` — the on-disk state directory holding `receipts.jsonl`,
-  and the `.constraintflow-attestation.json` / `.constraintflow-selectors`
-  files beside it. Renaming these makes existing checkouts' state invisible;
-* `constraintflow-declarations`, `constraintflow-constraints` and
-  `constraintflow-active` — markers that travel **inside the model request**
-  and are checked byte-for-byte by `cf/container_receipt.py`;
-* `_constraintflow_guard`, `_constraintflow_patch`,
-  `_constraintflow_original` — private attributes set on patched objects.
+So they are renamed, and the inventory lives in `v2/naming_gate.py` —
+`FORMAT_FAMILIES`, eleven families with both spellings — rather than in this
+docstring. The gate derives its coverage set from the committed package at the
+pre-rename commit, so a family nobody wrote down fails there instead of
+surviving in someone's file. A list in prose here would be a second copy that
+nothing checks.
 
-Each of those is either evidence already written down, state already on disk,
-or bytes a receipt compares. None is a developer-facing name.
+What the rename did NOT touch, and why:
+
+* **Existing `.constraintflow/` state and `receipts.jsonl` are not migrated.**
+  The ruling is explicit. A checkout that already has state keeps it; nothing
+  reads the old directory any more, and nothing deletes it either. Silently
+  rewriting a user's receipt file is worse than leaving it where they put it.
+* **Historical artifacts keep the old analyzer identity.** `IMPLEMENTATION` is
+  now `constraintrelay/0.7+analyzer.3`, and everything already written stays at
+  `constraintflow/0.7+analyzer.2` — see `version.py`. That is a version change,
+  not a re-signing of past output.
+* **`ConstraintFlow`, the query class**, is unchanged. It is a Python
+  identifier a developer types, not a format written into anyone's file, and
+  it is not in the ruling's list. The naming gate exempts it by exact match
+  and asserts all of its uses are still there, so "exempt" cannot drift into
+  "deleted".
+* **Two repository paths** that contain the old word —
+  `docs/constraintflow/inbound/` and `constraintflow/profiles/` — are
+  directories on disk, not formats. The rename guarded them explicitly.
 """
 
 from __future__ import annotations

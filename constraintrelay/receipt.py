@@ -182,7 +182,7 @@ class Receipt:
     # --- qualification ruling item 6: the rest of the required field set -----
     #: The ConstraintFlow commit, not only the analyzer version. A stored receipt
     #: naming a version but not a commit cannot be tied back to a tree.
-    constraintflow_commit: str = ""
+    constraintrelay_commit: str = ""
     #: Separate fingerprints, because "the inputs changed" is too coarse to act on:
     #: a store edit, a source edit and a config edit want different responses.
     store_fingerprint: str = ""
@@ -211,7 +211,7 @@ class Receipt:
 
     def as_dict(self) -> dict:
         return {
-            "receipt": "constraintflow/v0.7 §5",
+            "receipt": "constraintrelay/v0.7 §5",
             "outcome": self.outcome,
             "claim": CLAIM,
             "basis": ("predicted and replay-verified against the qualified loader "
@@ -227,7 +227,7 @@ class Receipt:
             "development_evidence_only": self.development_evidence_only or None,
             "input_fingerprint": self.input_fingerprint,
             "input_fingerprint_basis": self.input_fingerprint_basis,
-            "constraintflow_commit": self.constraintflow_commit,
+            "constraintrelay_commit": self.constraintrelay_commit,
             "store_fingerprint": self.store_fingerprint,
             "source_fingerprint": self.source_fingerprint,
             "config_fingerprint": self.config_fingerprint,
@@ -274,7 +274,7 @@ class Receipt:
                #: a separate check. A label that reads as a command is worse
                #: than one that reads as a product.
                f"  {naming.PRODUCT} commit: "
-               f"{self.constraintflow_commit[:12]}",
+               f"{self.constraintrelay_commit[:12]}",
                f"  target id: {self.target_id}",
                f"  protected content: {self.protected_content_regression or '?'}",
                f"  evidence: {self.evidence_reference.get('artifact') or 'none'}"
@@ -533,7 +533,7 @@ def _compute(scenario: Scenario, store: store_mod.Store, project_root: Path, *,
         missing_qualification=qualification.missing_evidence,
         input_fingerprint=fingerprint,
         input_fingerprint_basis=basis,
-        constraintflow_commit=cf_commit(),
+        constraintrelay_commit=cf_commit(),
         store_fingerprint=parts_digest(basis, "store="),
         source_fingerprint=parts_digest(basis, "file:"),
         config_fingerprint=parts_digest(

@@ -243,10 +243,10 @@ def check_single_scenario_verify():
     with tempfile.TemporaryDirectory(prefix="cf-cf009-") as tmp:
         root = Path(tmp)
         (root / "AGENTS.md").write_text(
-            "# Team\n\n<!-- constraintflow: critical id=FIN-001 -->\n"
+            "# Team\n\n<!-- constraintrelay: critical id=FIN-001 -->\n"
             "Research outputs must not be used directly as live-production "
             "actions.\n\n" + filler + "\n", encoding="utf-8")
-        (root / ".constraintflow.toml").write_text(
+        (root / ".constraintrelay.toml").write_text(
             'version = 1\n\n[[target]]\nname = "prod"\n'
             'profile = "hermes-agent/context-loader-v1"\ncwd = "."\n',
             encoding="utf-8")

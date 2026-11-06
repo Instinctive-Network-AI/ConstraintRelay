@@ -121,7 +121,7 @@ from pathlib import Path
 from .library import Library, file_digest, sha256_text
 
 #: The per-skill author manifest, beside the skill's own files.
-ATTESTATION_FILE = ".constraintflow-attestation.json"
+ATTESTATION_FILE = ".constraintrelay-attestation.json"
 
 # --- outcomes, exactly three -----------------------------------------------
 AVAILABLE_COMPLETE = "AVAILABLE_COMPLETE"
@@ -255,8 +255,8 @@ CONFIRMATION_METHODS = (METHOD_FIXTURE,) + REAL_METHODS
 #: Envelope delimiters. A declaration whose text contains either one would make
 #: the framing ambiguous, so that skill fails rather than shipping something a
 #: receipt cannot parse unambiguously.
-OPEN_TAG = "<constraintflow-declarations"
-CLOSE_TAG = "</constraintflow-declarations>"
+OPEN_TAG = "<constraintrelay-declarations"
+CLOSE_TAG = "</constraintrelay-declarations>"
 
 #: Printed inside every block. The non-elevation statement is part of the
 #: payload, not only of the report, because the reader that matters is the
@@ -1386,7 +1386,7 @@ def assemble(lib: Library, request: ContainerRequest, *, source_root: Path,
 #: Marks the container's own message in a payload. One discrete message, so
 #: "did it arrive" is answered by inspecting the request rather than by
 #: searching prose.
-CAPSULE_MARKER = "<!-- constraintflow:declarations -->"
+CAPSULE_MARKER = "<!-- constraintrelay:declarations -->"
 
 
 def render_capsule(assembly: Assembly) -> str:

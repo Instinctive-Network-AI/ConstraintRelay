@@ -87,7 +87,7 @@ _PROFILE_CHOICES = sorted(set(REGISTRY) | set(profile_ids()))
 # ---------------------------------------------------------------------------
 
 def _implicit_targets(keys: list[str]) -> list[config_mod.Target]:
-    """Targets for an invocation with no `.constraintflow.toml`.
+    """Targets for an invocation with no `.constraintrelay.toml`.
 
     §8: a profile named on the command line is still a *declared* target. The
     only difference from a configured one is that nothing recorded the
@@ -114,7 +114,7 @@ def select_targets(root: Path, profiles: "list[str] | None",
         raise config_mod.ConfigError(
             f"--target given but no {config_mod.CONFIG_NAME} found at {root}")
     return (_implicit_targets(SHIPPED),
-            "no .constraintflow.toml; defaulting to the replayed profiles")
+            "no .constraintrelay.toml; defaulting to the replayed profiles")
 
 
 def evaluate_targets(root: Path, targets: list, *, allow_on_request: bool,
@@ -384,7 +384,7 @@ def cmd_store(args) -> int:
     constraints = store_mod.importable(scan, when=args.when or "imported")
     if not constraints:
         print("no author-confirmed markers found. §16: only an explicit "
-              "`<!-- constraintflow: critical id=... -->` marker is an author "
+              "`<!-- constraintrelay: critical id=... -->` marker is an author "
               "confirmation; a --critical regex hit is a candidate and is never "
               "promoted automatically.", file=sys.stderr)
         return EXIT_ERROR
@@ -1107,10 +1107,10 @@ def _add_common(p: argparse.ArgumentParser) -> None:
     p.add_argument("path", nargs="?", default=".")
     p.add_argument("--profile", action="append", dest="profiles",
                    choices=_PROFILE_CHOICES, default=None,
-                   help="repeatable; overrides .constraintflow.toml. Accepts the "
+                   help="repeatable; overrides .constraintrelay.toml. Accepts the "
                         "short key or the family/profile id.")
     p.add_argument("--target", action="append", dest="targets", default=None,
-                   help="repeatable; a target name from .constraintflow.toml")
+                   help="repeatable; a target name from .constraintrelay.toml")
     p.add_argument("--json", action="store_true")
     p.add_argument("--allow-on-request", action="store_true",
                    help="treat AVAILABLE_ONLY_ON_REQUEST as allowed rather than "

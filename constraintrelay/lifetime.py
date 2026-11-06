@@ -125,9 +125,9 @@ from .skillstore import ConstraintRecord
 
 #: Opening tag of the injected message. Also the marker used to recognise an
 #: injection in a captured request, so a verifier does not have to guess.
-ACTIVE_OPEN = ('<constraintflow-active-constraints skills="{skills}" '
+ACTIVE_OPEN = ('<constraintrelay-active-constraints skills="{skills}" '
                'constraints="{constraints}">')
-ACTIVE_CLOSE = "</constraintflow-active-constraints>"
+ACTIVE_CLOSE = "</constraintrelay-active-constraints>"
 
 #: Why the block is there, addressed to the model. Phrased as a statement of
 #: record rather than an instruction to obey, for the same reason Phase 1's
@@ -390,7 +390,7 @@ def _deduped_section(skill_name: str, records: "list[ConstraintRecord]",
             continue
         ids = " | ".join([c.constraint_id, *merged.get(c.constraint_id, [])])
         lines.append(f"[{ids}] {c.canonical_text}")
-    head = (f'<constraintflow-constraints skill="{skill_name}" '
+    head = (f'<constraintrelay-constraints skill="{skill_name}" '
             f'count="{len(lines)}"')
     if dropped:
         head += f' merged_from_earlier_skills="{dropped}"'

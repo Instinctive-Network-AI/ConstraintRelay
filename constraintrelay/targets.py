@@ -19,7 +19,7 @@ that they stay visible:
     TARGET_PROFILE_CHANGED      a different loader surface is being evaluated
     TARGET_COVERAGE_INCREASED   a parameter was raised, a scenario was added
 
-The baseline is `.constraintflow/targets.baseline.json`, written by an explicit
+The baseline is `.constraintrelay/targets.baseline.json`, written by an explicit
 command. It is deliberately not auto-created on first run: a baseline that writes
 itself whenever it is missing can be reset by deleting it, which is the same hole
 one indirection further along.

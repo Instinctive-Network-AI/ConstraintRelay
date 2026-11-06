@@ -48,7 +48,7 @@ from .skillstore import ConstraintRecord, SkillStore, StoreError
 EXIT_OK, EXIT_ERROR, EXIT_FINDING = 0, 1, 2
 
 CANDIDATES_NAME = "candidates.json"
-CANDIDATES_SCHEMA = "constraintflow/candidates/1"
+CANDIDATES_SCHEMA = "constraintrelay/candidates/1"
 
 TIER_ALL = "all"
 TIER_CHOICES = (TIER_ALL, AUTHOR_MARKER, OPERATIVE, ADVISORY)
@@ -739,7 +739,7 @@ def cmd_active(args) -> int:
 # ---------------------------------------------------------------------------
 
 def cmd_init(args) -> int:
-    """Create `.constraintflow/` and show what is there to confirm.
+    """Create `.constraintrelay/` and show what is there to confirm.
 
     The first command a new user runs. It scans and reports; it writes no
     constraint, because `import --confirm-all` is the act of confirmation and
@@ -873,7 +873,7 @@ def _scan_opts(parser) -> None:
 
 def register(sub) -> None:
     """Add the product subcommands to an existing `add_subparsers` object."""
-    p = sub.add_parser("init", help="create .constraintflow/ and report what "
+    p = sub.add_parser("init", help="create .constraintrelay/ and report what "
                                     "was found")
     _common(p)
     _scan_opts(p)

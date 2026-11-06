@@ -45,7 +45,7 @@ and proposes **candidates**, each tiered:
 * `operative` — must / must not / never / only / forbidden / required, and the
   Chinese equivalents 必须 / 禁止 / 不得 / 严禁 / 只能 / 仅限;
 * `advisory` — should / avoid / ensure / recommended / 不要 / 应当;
-* `author_marker` — an explicit `<!-- constraintflow: critical id=… -->`, which
+* `author_marker` — an explicit `<!-- constraintrelay: critical id=… -->`, which
   is not a heuristic at all.
 
 Four regions are excluded for reasons found in real corpora: YAML frontmatter
@@ -58,7 +58,7 @@ someone confirms it.
 
 ### Canonical Constraint Store
 
-`cf/skillstore.py` → `.constraintflow/skills.toml`
+`cf/skillstore.py` → `.constraintrelay/skills.toml`
 
 ```text
 [[skill]]
@@ -234,9 +234,9 @@ v0.1 does not use them and no user needs them.
 
 | Path | What |
 |---|---|
-| `.constraintflow/skills.toml` | the canonical store — the authority |
-| `.constraintflow/candidates.json` | the last scan's candidate set (a report) |
-| `.constraintflow/store.toml` | the paused v0.7 store, if a project has one; unrelated to v0.1 |
+| `.constraintrelay/skills.toml` | the canonical store — the authority |
+| `.constraintrelay/candidates.json` | the last scan's candidate set (a report) |
+| `.constraintrelay/store.toml` | the paused v0.7 store, if a project has one; unrelated to v0.1 |
 
 ---
 

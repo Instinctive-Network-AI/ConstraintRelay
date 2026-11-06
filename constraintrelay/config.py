@@ -1,4 +1,4 @@
-"""`.constraintflow.toml` — Brief v0.6 §4.
+"""`.constraintrelay.toml` — Brief v0.6 §4.
 
 **Not a constraint registry.** It declares what the project wants ConstraintFlow
 to evaluate: which qualified profile, from which working directory, with which
@@ -33,7 +33,7 @@ from pathlib import Path
 from . import applicability
 from .registry import REGISTRY, resolve
 
-CONFIG_NAME = ".constraintflow.toml"
+CONFIG_NAME = ".constraintrelay.toml"
 
 SUPPORTED_VERSION = 1
 

@@ -163,7 +163,7 @@ class _LoadedSkill:
 #: declared at module level rather than per instance, which is what the
 #: `contextvars` documentation requires.
 _ACTIVE: contextvars.ContextVar = contextvars.ContextVar(
-    "constraintflow_active_skills", default={})
+    "constraintrelay_active_skills", default={})
 
 
 class _DeferredAwaitable(collections.abc.Coroutine):
@@ -308,7 +308,7 @@ class ProviderGuard:
                                      position=self._p["position"],
                                      host=host)
         self.receipts_path = Path(receipts_path) if receipts_path else \
-            Path(".constraintflow") / "receipts.jsonl"
+            Path(".constraintrelay") / "receipts.jsonl"
         self.ledger = RequestLedger(
             host=host,
             observed_paths=[self._p["send_path"]],
@@ -417,7 +417,7 @@ class ProviderGuard:
         #: So a second `attach()` on the same client can see it is already
         #: wrapped rather than nesting two wrappers, which would emit two
         #: receipts and two ledger rows for one request.
-        _wrapped._constraintflow_guard = self
+        _wrapped._constraintrelay_guard = self
         setattr(owner, method, _wrapped)
         self._installed = True
         return self
@@ -868,4 +868,4 @@ def _installed_guard(client, host: str):
         if owner is None:
             return None
     return getattr(getattr(owner, p["attach"][-1], None),
-                   "_constraintflow_guard", None)
+                   "_constraintrelay_guard", None)
