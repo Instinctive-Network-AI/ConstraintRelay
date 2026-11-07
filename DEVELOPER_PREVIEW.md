@@ -59,13 +59,11 @@ drift. In outline:
 4. install the guard on your client and open `guard.active(...)`;
 5. `constraintrelay receipts` to read the ledger back.
 
-Install verification: **41/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
+Install verification: **42/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
 from a clean clone, installed into a fresh venv, with the repository's own
 `cf/` **moved aside** so a source import cannot pass for an install. Every
 command the README prints is run against the installed console script.
-The one red is the **hermes-agent** example, and this line named the wrong cause for a day. It said the red was `backtest-sanity-check` sitting PENDING_CONFIRMATION for its re-anchor. The project lead confirmed that manifest on 2026-11-06, the skill is ADOPTED and delivers its three declarations — and install verification is **still 41/42**, so the pending state was never what this red was about. It could not have been: `v2/install_verify.py` fills `confirmation_method` into its own scratch copy of every manifest before it runs, so the live manifest's adoption state does not reach this measurement at all.
-
-What the example actually reports is `receipt_ok: false` with `verified_at_named_send_boundary: false`, while `assembly_succeeded`, `load_attribution_established` and the capsule in the payload are all true — it loads, assembles and delivers, and the receipt cannot be verified at the boundary the hermes seal names. That boundary moved when `computer_use`'s driver was removed from this machine after the seal was cut, so this is **environment drift on the verifying host**, not a defect in the container and not something a consumer of this package would hit. The vibe-trading example on the same run passes.
+**42/42** — all green as of 2026-11-07, re-measured twice. It read **41/42** on 2026-11-06 with the hermes-agent example's receipt failing `verified_at_named_send_boundary` while assembly, load attribution and the capsule in the payload were all true. That red no longer reproduces, and **the cause of the change is not established**: it was still 41/42 after the project lead confirmed `backtest-sanity-check`, so the pending state was not it, and nothing in the 2026-11-06 receipt-reason work touches that boundary. Recorded as measured rather than explained — see `STATUS.md § Open with Owner`.
 
 ## 3. Verified hosts, and the exact client path
 
