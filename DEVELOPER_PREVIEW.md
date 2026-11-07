@@ -63,7 +63,9 @@ Install verification: **41/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
 from a clean clone, installed into a fresh venv, with the repository's own
 `cf/` **moved aside** so a source import cannot pass for an install. Every
 command the README prints is run against the installed console script.
-The one red since 2026-11-06 is the hermes example: `backtest-sanity-check` is deliberately PENDING_CONFIRMATION for its re-anchor (Owner ruling 2026-11-05 item 3) and a pending manifest delivers nothing, so the example cannot complete until the project lead confirms. It is not a defect in the host integration.
+The one red is the **hermes-agent** example, and this line named the wrong cause for a day. It said the red was `backtest-sanity-check` sitting PENDING_CONFIRMATION for its re-anchor. The project lead confirmed that manifest on 2026-11-06, the skill is ADOPTED and delivers its three declarations — and install verification is **still 41/42**, so the pending state was never what this red was about. It could not have been: `v2/install_verify.py` fills `confirmation_method` into its own scratch copy of every manifest before it runs, so the live manifest's adoption state does not reach this measurement at all.
+
+What the example actually reports is `receipt_ok: false` with `verified_at_named_send_boundary: false`, while `assembly_succeeded`, `load_attribution_established` and the capsule in the payload are all true — it loads, assembles and delivers, and the receipt cannot be verified at the boundary the hermes seal names. That boundary moved when `computer_use`'s driver was removed from this machine after the seal was cut, so this is **environment drift on the verifying host**, not a defect in the container and not something a consumer of this package would hit. The vibe-trading example on the same run passes.
 
 ## 3. Verified hosts, and the exact client path
 
@@ -77,6 +79,15 @@ produces no receipt and **claims no absence**.
 | `langgraph` + `langchain-openai` | `llm.root_client` — the client LangChain built for itself. Nothing in LangChain or LangGraph modified or configured to cooperate | the `messages` list, plus **the JSON body a local HTTP stub parsed** — downstream of the SDK's own serialisation | **15/15 LangGraph host checks**, versions pinned in `v2/out/LANGGRAPH_HOST.json`. An uninstalled control sends no capsule. Nothing billed |
 | `hermes-agent` 0.14.0 @ `2517917de` | the agent instance; delivery into `api_kwargs["messages"]` at the two methods the main loop calls (`conversation_loop.py:1172` / `:1176`) | that `messages` list. `chat_completions` **only** — `anthropic_messages`, `codex_responses` and `bedrock_converse` are refused at install | **141/141 hermes host checks**, **15/15 hermes host mutations caught** on a recorded reply, plus a **real-model** smoke 2026-10-22 whose two arm-B receipts verified at run time |
 | `vibe-trading` @ `dddf96e` | `ChatLLM.stream_chat` | the `messages` list at that call | one **real model request**, 2026-10-18, one skill, author-confirmed |
+| `vibe-trading` **v0.1.19 @ `b62c8782`** | `ChatLLM.stream_chat` | the `messages` list at that call | **2026-11-06, on the LATEST upstream version**: 20 checks, 0 failed, from the **release wheel installed into a fresh venv** — not a source import — on **recorded replies** with **zero provider calls** and Vibe's own tree unmodified. Record: `v2/VIBE_LATEST_COMPAT_2026-11-06.md` |
+
+> **One decision can produce more than one receipt on `vibe-trading`.**
+> Since v0.1.19 the loop wraps its send in a nested `stream_request()` closure
+> and **retries** it, so `ChatLLM.stream_chat` may be called several times for
+> a single decision. Each call is its own payload and takes its own receipt;
+> a reader counting receipts is not counting decisions. Nothing about the
+> boundary changed — `messages` is still the first parameter, and the send
+> still precedes tool processing.
 
 **Reasoned about and NOT measured:** `responses.create`, Anthropic, CrewAI,
 AutoGen, LlamaIndex, the OpenAI Agents SDK. They all reach a provider SDK

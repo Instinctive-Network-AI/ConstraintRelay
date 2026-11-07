@@ -33,6 +33,26 @@ Owner correction, 2026-10-15. Every path that cannot see what it needs returns
 * whether the host's own system message is unchanged NOT ESTABLISHED, so
   non-elevation cannot be checked.
 
+One of those paths is the CALLER's omission, and says so (2026-11-06)
+---------------------------------------------------------------------
+Owner ruling item 3. When `tools_offered` was never passed, or neither
+`host_system_sha256` nor `host_system_count` was, the verdicts carry
+`RECEIPT_INPUT_MISSING` instead of `UNOBSERVABLE`, `receipt.missing_inputs`
+names them, and a note states that **this is not a host incompatibility**.
+
+The two are worth telling apart because they look identical and mean opposite
+things: `FAILED` / `UNOBSERVABLE` with an EMPTY violations list and every
+declaration found verbatim in the payload is a correct, fail-closed verdict
+that reads exactly like *the host changed*. It cost real time during the
+2026-11-06 Vibe-Trading v0.1.19 compatibility check.
+
+The call is **not** refused outright, and that was considered: refusing would
+close the only route to `host_system_message_unchanged: null`, which the
+2026-10-25 ruling requires to be reachable and to never pass. The legitimate
+empty forms are also not omissions and are not listed — `tools_offered=[]`
+states that the host offered none, and `host_system_count=0` states that the
+payload carries no system message by construction.
+
 Three states, not two (2026-10-25)
 ----------------------------------
 Owner ruling. `non_elevation.host_system_message_unchanged` is three-valued:
@@ -92,9 +112,9 @@ from .container import (AVAILABLE_COMPLETE, CAPSULE_MARKER,              # noqa:
                         CATEGORIES_REQUIRING_EVIDENCE, CATEGORY_NOTES,
                         CLOSE_TAG, CONF_BY_AUTHOR, CONF_UNCONFIRMED, FAILED,
                         NON_ELEVATION_NOTICE, OPEN_TAG,
-                        ORDER_IS_NOT_AUTHORITY, UNDECLARED,
-                        UNOBSERVABLE, ManifestError, envelope_header,
-                        sha256_text)
+                        ORDER_IS_NOT_AUTHORITY, RECEIPT_INPUT_MISSING,
+                        UNDECLARED, UNOBSERVABLE, ManifestError,
+                        envelope_header, sha256_text)
 
 #: Roles a declaration block may travel in. `system` is absent on purpose: the
 #: ruling is that a declaration keeps the author's authority and is not raised
@@ -269,6 +289,12 @@ class Receipt:
     #: `constraintrelay.load_attribution.summarise()` for the loads behind this request, or
     #: `{}` when the host supplied none. Owner direction 2026-10-21, item 1.
     load_attribution: dict = field(default_factory=dict)
+    #: Which of the receipt's required inputs the CALLER did not supply. Owner
+    #: ruling 2026-11-06 item 3. Non-empty means the verdicts below read
+    #: `RECEIPT_INPUT_MISSING` rather than `UNOBSERVABLE`, and that **this is
+    #: not a host incompatibility** — at the top level, so a reader meets it
+    #: before reading a single per-skill verdict.
+    missing_inputs: list = field(default_factory=list)
 
     @property
     def attribution_established(self):
@@ -823,6 +849,38 @@ def verify(payload: list, assembly, *, lib, attestations: dict,
     blocking = (not non_elev["verified"]
                 or not decision["is_decision_input_boundary"])
 
+    #: Owner ruling 2026-11-06 item 3. Which of the receipt's required inputs
+    #: the CALLER did not supply — named, so the verdict stops reading like a
+    #: host incompatibility. Both are distinguished from their legitimate
+    #: empty forms, because those are statements and this is silence:
+    #:
+    #:  * `tools_offered=[]` STATES that the host offered none. Still not a
+    #:    decision input boundary, still degrades — and not listed here.
+    #:    `None` means nobody said, and is.
+    #:  * `host_system_sha256=""` with `host_system_count` given is the
+    #:    vacuous case, recorded as vacuous. Neither supplied is silence.
+    missing_inputs = []
+    if tools_offered is None:
+        missing_inputs.append("tools_offered")
+    if not host_system_sha256.strip() and host_system_count is None:
+        missing_inputs.append("host_system_sha256")
+    blocking_reason = (RECEIPT_INPUT_MISSING if missing_inputs
+                       else UNOBSERVABLE)
+    if missing_inputs:
+        notes.append(
+            "RECEIPT_INPUT_MISSING — the caller did not supply "
+            + " and ".join(f"`{m}`" for m in missing_inputs)
+            + ". **This is not a host incompatibility.** Without "
+              "`tools_offered` the receipt cannot tell a payload that offered "
+              "no tools from a caller who did not say; pass the host's own "
+              "tool schemas, or `[]` to state that it offered none. Without "
+              "`host_system_sha256` — the digest of the host's own system "
+              "message taken BEFORE the injection — non-elevation cannot be "
+              "checked; pass it, or pass `host_system_count=0` if the payload "
+              "carries no system message by construction. Every declaration "
+              "may well be present in the payload: check `violations` and the "
+              "per-skill `checks` before suspecting the host.")
+
     verdicts: list = []
     for o in assembly.outcomes:
         cat = getattr(o, "category", CAT_AUTHOR_CONFIRMED)
@@ -889,10 +947,25 @@ def verify(payload: list, assembly, *, lib, attestations: dict,
         if o.outcome == AVAILABLE_COMPLETE:
             if blocking:
                 verdicts.append(SkillVerdict(
-                    o.skill_id, o.outcome, FAILED, UNOBSERVABLE, checks,
-                    {"reason": "the claim could not be verified at this "
-                               "boundary; see the receipt's notes. Absent "
-                               "evidence is a failure, not a delivery.",
+                    o.skill_id, o.outcome, FAILED, blocking_reason, checks,
+                    {"reason": (
+                        "the caller did not supply "
+                        + " and ".join(f"`{m}`" for m in missing_inputs)
+                        + ", so there was nothing to verify against. This is "
+                          "NOT a host incompatibility — see the receipt's "
+                          "notes and `missing_inputs`."
+                        if missing_inputs else
+                        "the claim could not be verified at this "
+                        "boundary; see the receipt's notes. Absent "
+                        "evidence is a failure, not a delivery."),
+                     #: Present only when there IS an omission. An
+                     #: unconditional key — even an empty list — moves the
+                     #: projection digest of every sealed receipt, and this
+                     #: one drifted `container_receipt_s_f.json` for a field
+                     #: that said nothing. The information belongs exactly
+                     #: where it applies.
+                     **({"missing_inputs": list(missing_inputs)}
+                        if missing_inputs else {}),
                      "notes": list(notes)}))
                 continue
             if env is None:
@@ -969,4 +1042,5 @@ def verify(payload: list, assembly, *, lib, attestations: dict,
         category_enabling=(assembly.request.enabling_record()
                            if hasattr(assembly.request, "enabling_record")
                            else {}),
-        load_attribution=dict(load_attribution or {}))
+        load_attribution=dict(load_attribution or {}),
+        missing_inputs=list(missing_inputs))

@@ -142,6 +142,23 @@ CAPACITY_EXCEEDED = "CAPACITY_EXCEEDED"
 #: correction of 2026-10-15: evidence that is missing is a failure, never a
 #: delivery. Raised by `cf/container_receipt.py`, never by assembly.
 UNOBSERVABLE = "UNOBSERVABLE"
+#: The CALLER did not supply an input the receipt needs in order to observe
+#: anything. A strictly narrower case of the one above, split out by the Owner
+#: ruling of 2026-11-06 item 3, and the reason it is worth its own name is a
+#: measured cost: `UNOBSERVABLE` with an EMPTY violations list and every
+#: declaration found verbatim in the payload is a correct, fail-closed verdict
+#: that reads, to a reader, exactly like *the host changed and broke the
+#: adapter*. It cost real time during the 2026-11-06 Vibe-Trading v0.1.19
+#: compatibility check: the probe omitted `host_system_sha256` and passed no
+#: tools, and the red was first taken for a possible host incompatibility.
+#:
+#: Why a reason and not a raised error: refusing the call outright would have
+#: closed the only route to `host_system_message_unchanged: null`, and the
+#: Owner's 2026-10-25 ruling requires that third state to be REACHABLE and to
+#: never pass. So the state survives and the verdict now says whose omission
+#: it was. `receipt.missing_inputs` names them, and the note says in as many
+#: words that this is not a host incompatibility.
+RECEIPT_INPUT_MISSING = "RECEIPT_INPUT_MISSING"
 #: The skill holds a candidate the author's manifest does not confirm.
 NOT_AUTHOR_CONFIRMED = "NOT_AUTHOR_CONFIRMED"
 #: A manifest that PARSES and is waiting for its author. Owner direction
