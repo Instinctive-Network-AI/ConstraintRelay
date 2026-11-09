@@ -59,11 +59,43 @@ drift. In outline:
 4. install the guard on your client and open `guard.active(...)`;
 5. `constraintrelay receipts` to read the ledger back.
 
-Install verification: **42/42** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
+Install verification: **44/44** (`v2/out/INSTALL_VERIFY.json`) — a wheel built
 from a clean clone, installed into a fresh venv, with the repository's own
 `cf/` **moved aside** so a source import cannot pass for an install. Every
 command the README prints is run against the installed console script.
-**42/42** — all green as of 2026-11-07, re-measured twice. It read **41/42** on 2026-11-06 with the hermes-agent example's receipt failing `verified_at_named_send_boundary` while assembly, load attribution and the capsule in the payload were all true. That red no longer reproduces, and **the cause of the change is not established**: it was still 41/42 after the project lead confirmed `backtest-sanity-check`, so the pending state was not it, and nothing in the 2026-11-06 receipt-reason work touches that boundary. Recorded as measured rather than explained — see `STATUS.md § Open with Owner`.
+**44/44** — green on 2026-11-09 on **two different interpreters**, which is
+the figure that matters and was not previously true.
+
+**Why it is stated per interpreter, 2026-11-09.** This checker's figure was
+partly a function of *which Python invoked it*, not of the package. It derived
+the install venv's `site-packages` from `python3.{sys.version_info.minor}` of
+the **runner**, while both venvs it creates are pinned to one interpreter. At a
+single commit, `61f8449`, with nothing else changed:
+
+| invoked with | figure |
+|---|---|
+| Python **3.13** — the pinned build interpreter | **42/42**, 0 failed |
+| Python **3.9.6** — this machine's system one | **33/42**, 9 failed |
+
+Under 3.9 the derived path was `lib/python3.9/site-packages` inside a 3.13
+venv — not a directory — so `PYTHONPATH` pointed at nothing and both hosts'
+examples died in `ModuleNotFoundError`, reporting the wheel broken. The venv
+is now asked for its own `purelib`, two checks hold the derivation (one of them
+a control that goes red on **every** interpreter if the shape returns), and a
+run that cannot measure exits 3 **without overwriting the artifact** — a red
+run had been free to replace the last real measurement.
+
+The earlier **41/42** of 2026-11-06 is a *different* event and is **still not
+explained**. Two causal claims previously recorded about it are withdrawn: the
+"ruled out via scratch-copy confirmation" reasoning was wrong (that patch never
+reaches the path the hermes example reads), and the 2026-11-06 receipt-reason
+work cannot have fixed it (it renames the blocking reason and leaves the
+blocking condition untouched). What is established, from the committed artifact
+rather than from prose: the receipt was red with `violations` empty and
+assembly, attribution and capsule all true — the one `blocking` branch, with no
+record of which of its two disjuncts fired. The example now prints both on a
+red, and the artifact no longer truncates that line away. See `STATUS.md
+§ Open with Owner` 0d.
 
 ## 3. Verified hosts, and the exact client path
 
