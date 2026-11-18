@@ -143,6 +143,14 @@ def cmd_receipts(args) -> int:
         if malformed:
             print(f"  ! {malformed} line(s) would not parse and are counted, "
                   f"not dropped")
+        # Printed here, not only in `--json`. This count decides the exit code
+        # below, and a figure that decides an exit code while being invisible
+        # on the surface a developer actually reads leaves them with a 1 and
+        # no reason for it.
+        if summary["rows_without_a_known_status"]:
+            print(f"  ! {summary['rows_without_a_known_status']} row(s) carry "
+                  f"no status this version knows. They are NOT counted as "
+                  f"clean: what was due at those requests is unestablished")
         print()
         # Numbered by position in THIS file, with the guard's own sequence
         # beside it. `request_seq` restarts at 1 for every `attach`, so a
@@ -174,6 +182,23 @@ def cmd_receipts(args) -> int:
               "the named boundary.\n  It is not evidence the model read, "
               "understood or obeyed them.")
 
+    # An unreadable ledger is EXIT_ERROR, and it outranks the finding count.
+    #
+    # Until 2026-11-18 this line was `EXIT_FINDING if findings else EXIT_OK`,
+    # so a sink holding a truncated line, or a row whose status this version
+    # does not know, exited **0** — under a documented contract that reads 0 as
+    # "nothing needs a decision". Both figures were already computed and
+    # printed; neither reached the exit code. A corrupted ledger went green in
+    # CI, which is the one outcome a delivery receipt exists to prevent.
+    #
+    # EXIT_ERROR rather than EXIT_FINDING because the honest statement is *the
+    # ledger was not read*, not *the ledger was read and holds a finding*: with
+    # rows unaccounted for, the finding count is a floor and not a result. It
+    # takes precedence for the same reason — reporting 2 here would quote that
+    # floor as though it were the answer. Either way the code is non-zero, so a
+    # build step fails closed on both.
+    if summary["malformed_lines"] or summary["rows_without_a_known_status"]:
+        return EXIT_ERROR
     return EXIT_FINDING if summary["findings"] else EXIT_OK
 
 

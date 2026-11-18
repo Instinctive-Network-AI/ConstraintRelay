@@ -170,14 +170,31 @@ wire one up:
 
 | exit | meaning |
 |---|---|
-| **0** | nothing needs a decision |
-| **1** | a tool or configuration error — the ledger was not read |
+| **0** | the ledger was read whole and nothing in it needs a decision |
+| **1** | **the ledger was not read**: no sink at that path, a line that will not parse, or a row whose status this version does not know |
 | **2** | **a reported finding**: at least one `MISSING` or `UNATTRIBUTED` row |
 
 So `constraintrelay receipts` is usable as a build step directly, and a **2 is
 a successful read of a ledger that has something in it** rather than a failure
 of the command. `none due` is deliberately not a finding — reporting an
 ordinary request with nothing active would train you to ignore the code.
+
+Two details that are the difference between this being a CI signal and being
+decoration:
+
+* **An unreadable ledger is a 1, not a 0.** Until 2026-11-18 it was a 0: a
+  truncated line or an unrecognised status was *printed* and then *not counted*,
+  under this same table promising that 0 meant nothing needed a decision. A
+  corrupted ledger went green. If you pinned an earlier build, do not trust a 0
+  from it.
+* **A 1 outranks a 2.** With rows unaccounted for, the finding count is a floor
+  rather than a result, so the command reports that it could not read the ledger
+  instead of quoting a number it cannot stand behind. Both are non-zero, so a
+  build step fails closed either way.
+
+`tests/test_receipts_exit_codes.py` holds every row of that table, over both the
+text and `--json` paths, including the two controls that stop an
+always-failing command from satisfying it.
 
 That is the whole loop. The five-minute path above is
 run on the installed wheel on every verification pass (`v2/install_verify.py`,
