@@ -244,16 +244,16 @@ neighbours claim judgements, claiming one checkable fact is the asset.
 | # | Blocker | What it needs |
 |---|---|---|
 | B1 | **CLOSED 2026-10-25** by the Owner's ruling, and re-settled 2026-11-01 when the product was renamed again. The distribution is `constraintrelay`, unregistered on PyPI (404, read 2026-11-01). The gate that forbids a runnable index install stays armed on the stronger reason — nothing is published — rather than being relaxed because the name conflict went away | — |
-| B2 | **The release directory is prepared; the repository is not created.** `v2/release_package.py` builds `release/constraintrelay/` from **19 whitelist patterns**: **95 whitelisted files**, with **96 tracked in the fresh history** — the extra one is the `.gitignore` the packager generates, which is shipped but was never copied in (**1 commit, no remote, no tag**), no old `.git`, and both artifacts built and scanned. The ruling says **do not create a remote**, so none exists | An Owner decision to create the public repository and push that history. Nothing here can be pushed by accident |
-| B3 | **No tag, by ruling.** `v0.1.0a1` is in `pyproject.toml` and is a *proposal*; `v2/naming_gate.py` fails if the tag exists | An Owner decision |
+| B2 | **The repository exists and is PRIVATE; it is not published.** `v2/release_package.py` builds `release/constraintrelay/` from **22 whitelist patterns**: **98 whitelisted files**, with **99 tracked in the fresh history** — the extra one is the `.gitignore` the packager generates, which is shipped but was never copied in. Those three figures are printed by the build that produced this tree, reconciled by **name** rather than by arithmetic, and **read back out of this sentence and compared** by that build — so a round that changes the whitelist and not this line fails there. No old `.git`, and both artifacts built and scanned. That history is pushed to `Instinctive-Network-AI/ConstraintRelay`, which is **private**: a push is saving a candidate, not publishing one | An Owner decision to make that repository public. Visibility is the publication act, and it is not reversible in the sense that matters — once a commit has been fetched, withdrawing it is not available |
+| B3 | **No tag.** `v0.1.0a1` is in `pyproject.toml` and is a *proposal*; `v2/naming_gate.py` fails if the tag exists | An Owner decision |
 
 **Pre-existing, carried from `RELEASE_CHECKLIST.md` (internal, not shipped in
 this preview):**
 
 | # | Blocker | State |
 |---|---|---|
-| B4 | Rotate the DeepSeek credential exposed on 2026-10-03 | Fingerprint `8d573fa5` is in `constraintrelay.provider_guard.REVOKED_FINGERPRINTS`, so **no runner can use it** — refused before a request is formed. The rotation itself is the Owner's to do |
-| B5 | 2–3 real non-scripted sessions | Blocked by B4. **Not a qualification gate** — it records an ordinary limitation |
+| B4 | Rotate the DeepSeek credential exposed on 2026-10-03 | **CLOSED 2026-10-09.** The replacement key's fingerprint is not on the revoked list and passes the guard; evidenced by the Phase 15 run that used it, not by a live check in any later session. The exposed key's own digest **stays** in `constraintrelay.provider_guard.REVOKED_FINGERPRINTS` after the rotation, so a surviving copy of it is still refused before a request is formed. The digest is deliberately **not** quoted here: that module is the single declared carrier, and the packager asserts no other published file holds it |
+| B5 | 2–3 real non-scripted sessions | **Not run.** No longer blocked by B4 — that reason expired on 2026-10-09 and this row claimed it until 2026-11-18. **Not a qualification gate** — it records an ordinary limitation |
 | B6 | A "why this exists" page for someone who has not read the paper | Not written. This document is not it |
 
 ### What the B1 gate covers, and what it does not

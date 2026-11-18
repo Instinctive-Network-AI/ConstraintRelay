@@ -1,0 +1,5 @@
+# `examples/` is not a package, so setuptools does not pick it up on its own —
+# and the README that ships INSIDE the sdist tells a reader to run
+# `python examples/recorded_failure.py`. A shipped instruction pointing at a
+# file that is not in the same artifact is the defect, not a missing nicety.
+recursive-include examples *.py *.md

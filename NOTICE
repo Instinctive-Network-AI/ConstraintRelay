@@ -12,6 +12,14 @@ License 2.0 text (md5 3b83ef96387f14655fc854ddc3c6bd57).
 Third-party attributions
 -------------------------------------------------------------------------------
 
+A note on paths before the attributions themselves. This distribution is a
+SUBSET of the development tree the attributions were written against, so some
+paths named below — `oracle/`, `fieldtest/`, and `PHASE1.md`-`PHASE5.md` — are
+NOT in this package. They are named anyway, deliberately: an attribution is
+cheaper to carry than to re-derive, and under Apache-2.0 section 4 the risk of
+dropping one is not symmetric with the risk of keeping one that points at a
+file you cannot open here. Where a path is in this package, it resolves.
+
 ConstraintRelay vendors no third-party source. It does, however, contain Python
 *ports* of algorithms read from the agent harnesses it was measured against —
 re-implementations written to predict those harnesses' behaviour without

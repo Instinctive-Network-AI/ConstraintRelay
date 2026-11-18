@@ -64,15 +64,18 @@ KEY_ENV: dict[str, str] = {
 #:
 #: Credentials known to have been exposed. A key listed here is refused even
 #: when the endpoint is correct, because the problem is the key, not the call.
-#: Remove an entry only after the credential has actually been rotated — the
-#: entry costs nothing once the old key no longer exists.
+#: An entry STAYS after rotation. Rotation retires the credential; it does not
+#: make a request carrying the old one acceptable, and the entry is what keeps
+#: a stale copy — in a shell history, an old env file, a snapshot — refused
+#: rather than merely unlikely. It costs nothing to keep.
 REVOKED_FINGERPRINTS: dict[str, str] = {
     "8d573fa5": (
         "this DEEPSEEK_API_KEY was transmitted to api.openai.com on 2026-10-03 "
         "by the harness's provider env-sync (no base URL configured) and was "
         "rejected with a 401 quoting a masked prefix. Treated as a security "
-        "incident; the owner is rotating it. Set the replacement key and this "
-        "guard will pass."),
+        "incident. ROTATED 2026-10-09: the replacement's fingerprint is not on "
+        "this list and passes this guard. The entry is retained deliberately so "
+        "that a surviving copy of the old key is still refused."),
 }
 
 #: Truncation length for `fingerprint`. Long enough that two live keys will not

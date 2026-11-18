@@ -164,11 +164,39 @@ constraintrelay receipts
   UNATTRIBUTED: 0  MISSING: 1  delivered: 1  none due: 1
 ```
 
+**That command exits non-zero on the output above, and it is meant to.** The
+exit code is the contract a CI job reads, so it is worth knowing before you
+wire one up:
+
+| exit | meaning |
+|---|---|
+| **0** | nothing needs a decision |
+| **1** | a tool or configuration error — the ledger was not read |
+| **2** | **a reported finding**: at least one `MISSING` or `UNATTRIBUTED` row |
+
+So `constraintrelay receipts` is usable as a build step directly, and a **2 is
+a successful read of a ledger that has something in it** rather than a failure
+of the command. `none due` is deliberately not a finding — reporting an
+ordinary request with nothing active would train you to ignore the code.
+
 That is the whole loop. The five-minute path above is
 run on the installed wheel on every verification pass (`v2/install_verify.py`,
 an internal file not shipped in this preview),
 so a README whose opening snippet does not work is a failing check rather than
 a surprise.
+
+### Run the loop yourself, in one command
+
+```bash
+python examples/recorded_failure.py
+```
+
+Needs nothing but the installed package — no provider, no API key, no network.
+It builds a throwaway skill repository, adopts an attestation, drives three
+requests through a stand-in client, and ends on the thing worth seeing: **a
+confirmed delivery and a recorded failure, side by side in one ledger**, plus
+an unguarded control that leaves no row at all. See
+[`examples/README.md`](examples/README.md).
 
 ### What has been measured, and what follows from it
 

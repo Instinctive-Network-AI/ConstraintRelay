@@ -182,4 +182,4 @@ a declaration.
 | a sealed extraction holdout before any further extractor change is scored | `PHASE7.md` §8, `RELEASE_CHECKLIST.md` |
 | semantic extraction as a reproducible path | `PHASE15.md` — three frozen backends failed determinism; confirmation-only, permanently |
 | publication channel and repository extraction | `DEVELOPER_PREVIEW.md` → *Blocking* |
-| the DeepSeek credential rotation and the 2–3 real non-scripted sessions | `RELEASE_CHECKLIST.md` → *Blocking* |
+| the 2–3 real non-scripted sessions | `DEVELOPER_PREVIEW.md` → B5. Not run, and **not** blocked by the credential rotation, which closed 2026-10-09 |
