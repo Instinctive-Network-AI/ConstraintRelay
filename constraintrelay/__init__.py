@@ -42,8 +42,9 @@ from __future__ import annotations
 #:
 #: `0.1.0a1` — the developer preview, per the Owner's ruling of 2026-10-25.
 #: `pyproject.toml`, this literal and `constraintrelay.api.VERSION` must agree, and
-#: `v2/naming_gate.py` asserts all three against each other. The proposed tag
-#: is `v0.1.0a1`; NOTHING is tagged and nothing is published.
+#: `v2/naming_gate.py` asserts all three against each other. The tag is
+#: `v0.1.0a1` — `v` plus this literal, ruled 2026-11-18 and not yet cut — and
+#: nothing is published to any index.
 __version__ = "0.1.0a1"
 
 from . import phase1_pause as _phase1_pause   # noqa: E402

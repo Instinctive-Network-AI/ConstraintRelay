@@ -18,9 +18,13 @@ Three kinds of entry, kept apart because they are different states:
 ## 0. RULED — the product's names, and the preview version
 
 **Owner ruling 2026-10-25.** The product is **ConstraintRelay**; the distribution
-and the CLI are **`constraintrelay`**; the preview version is **`0.1.0a1`** and
-the proposed tag `v0.1.0a1` is a proposal — nothing is tagged and nothing is
-published to any index.
+and the CLI are **`constraintrelay`**; the preview version is **`0.1.0a1`**.
+Nothing is published to any index.
+
+**Owner ruling 2026-11-18.** The tag is **`v0.1.0a1`** — settled, and not yet
+cut. `v2/naming_gate.py` asserts that any `v0.1` tag is exactly that string,
+in this repository and in the development one, rather than refusing tags
+outright as it did while the name was open.
 
 The names live in `cf/naming.py` and `v2/naming_gate.py` binds them to
 `pyproject.toml`, so a future rename is one edit and the gate says whether

@@ -105,6 +105,61 @@ def main() -> int:
           "sink is the same class as an unknown status, not a pass",
           f"exit {code}\n{out}")
 
+    # -- shape drift BELOW the object level ---------------------------------
+    # `json.loads` returns whatever the line held. `null`, `42`, `[1,2]` and
+    # `"text"` are all valid JSON and none of them is a row. Round 1 of this
+    # fix handled "an object whose status I cannot read" and these still
+    # raised `AttributeError` — fail-closed by accident, since Python's
+    # uncaught-exception exit is also 1, which is why the gap survived a
+    # round. The exit code was right and the output was a traceback.
+    for literal, name in (("null", "null"), ("42", "a bare number"),
+                          ("[1, 2]", "a list"), ('"text"', "a bare string")):
+        code, out = run([literal])
+        check(code == EXIT_ERROR,
+              f"a line holding {name} — valid JSON, not a row — exits 1",
+              f"exit {code}\n{out[:400]}")
+        check("Traceback" not in out,
+              f"...and does NOT traceback on {name}: a command that crashes "
+              f"is not a command that reported",
+              out[:500])
+
+    code, out = run([json.dumps({"request_seq": 1, "ledger_row": "oops"})])
+    check(code == EXIT_ERROR and "Traceback" not in out,
+          "a `ledger_row` that is not an object is unreadable, not a crash — "
+          "drift one level down is still drift",
+          f"exit {code}\n{out[:400]}")
+
+    # -- `--json` must stay machine-readable on EVERY one of them -----------
+    # The whole point of `--json` is a caller that parses it. A traceback
+    # there is worse than a wrong number: the caller cannot even read the
+    # refusal. Asserted by actually parsing, not by looking for "Traceback".
+    for lines, name in (
+            (["null"], "null"),
+            (["[1, 2]"], "a list"),
+            ([json.dumps({"request_seq": 1, "ledger_row": "oops"})],
+             "a non-object ledger_row"),
+            ([row("DELIVERED_COMPLETE"), "null", "{truncated"],
+             "a mixed ledger: one good row, one non-row, one unparseable"),
+    ):
+        code, out = run(lines, "--json")
+        try:
+            payload = json.loads(out)
+            parsed, why = isinstance(payload.get("summary"), dict), ""
+        except Exception as exc:                               # noqa: BLE001
+            parsed, why = False, f"{exc}"
+        check(parsed and code == EXIT_ERROR,
+              f"--json over {name} is still valid JSON carrying a summary, "
+              f"and still exits 1",
+              f"exit {code} parse={why or 'ok'}\n{out[:400]}")
+
+    # `--failures` walks the rows through a different filter than the
+    # listing does, so it is its own path and gets its own case.
+    code, out = run([row("DUE_BUT_MISSING"), "null"], "--failures")
+    check(code == EXIT_ERROR and "Traceback" not in out,
+          "`--failures` filters rows through its own predicate and survives a "
+          "non-row too — a second reader of the same drift",
+          f"exit {code}\n{out[:400]}")
+
     # -- precedence, stated rather than left to reading order ---------------
     code, out = run([row("DUE_BUT_MISSING"), "{truncated"])
     check(code == EXIT_ERROR,

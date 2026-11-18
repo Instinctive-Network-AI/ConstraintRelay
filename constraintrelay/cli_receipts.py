@@ -84,11 +84,32 @@ def read_rows(path: Path) -> tuple:
     return rows, malformed
 
 
+def _mapping(x) -> dict:
+    """*x* if it is a JSON object, else `{}`.
+
+    Every read of a row and of its nested `ledger_row` goes through here,
+    because `json.loads` returns whatever the line held: `null`, `42`, `[1,2]`
+    and `"text"` are all valid JSON and none of them is a row. Before
+    2026-11-18 those reached `.get()` directly and raised `AttributeError`.
+
+    The traceback was fail-CLOSED — Python's uncaught-exception exit is 1, the
+    code an unreadable ledger should produce — which is exactly why it was
+    easy to miss: the exit code was right and everything else was wrong. There
+    was no summary, and `--json` emitted a traceback, so a caller parsing the
+    output broke on a ledger the command is supposed to *report* on.
+
+    Returning `{}` routes these into `rows_without_a_known_status`, which is
+    where they belong: the line parsed, and its status is unestablished.
+    """
+    return x if isinstance(x, dict) else {}
+
+
 def summarise(rows: list, malformed: int) -> dict:
     census = {s: 0 for s in STATUSES}
     hosts, unreadable = set(), 0
-    for r in rows:
-        row = r.get("ledger_row") or {}
+    for raw in rows:
+        r = _mapping(raw)
+        row = _mapping(r.get("ledger_row"))
         st = row.get("status")
         if st in census:
             census[st] += 1
@@ -128,7 +149,8 @@ def cmd_receipts(args) -> int:
 
     shown = [r for r in rows
              if not args.failures
-             or (r.get("ledger_row") or {}).get("status") in FINDING_STATES]
+             or _mapping(_mapping(r).get("ledger_row")).get("status")
+             in FINDING_STATES]
     if args.limit > 0:
         shown = shown[-args.limit:]
 
@@ -226,9 +248,10 @@ _ADDED_BY_LISTING = ("skills", "host", "observation_point",
                      "observable_boundary")
 
 
-def _line(r: dict) -> dict:
-    row = r.get("ledger_row") or {}
-    rec = r.get("receipt") or {}
+def _line(raw) -> dict:
+    r = _mapping(raw)
+    row = _mapping(r.get("ledger_row"))
+    rec = _mapping(r.get("receipt"))
     out = dict(row)
     #: Defaults only for the keys this listing's own output reads, so a
     #: malformed row prints rather than raising. Every other key is whatever
@@ -242,7 +265,8 @@ def _line(r: dict) -> dict:
     #: `skills` is a RENDERING of `due_ids` for the human listing, and both
     #: are emitted: collapsing a list into a comma-joined string is a loss
     #: a machine reader should not have to undo.
-    out["skills"] = ", ".join(row.get("due_ids") or [])
+    due = row.get("due_ids")
+    out["skills"] = ", ".join(due) if isinstance(due, list) else ""
     out["host"] = r.get("host", "")
     out["observation_point"] = rec.get("observation_point", "")
     out["observable_boundary"] = rec.get("observable_boundary", "")
